@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="T-init-table" author="张三">
+        <sqlFile path="classpath:db/init-table-structure.sql"/>
+        <sqlFile path="classpath:db/init-data.sql"/>
+    </changeSet>
+
+    <changeSet id="T-20191126-001" author="张三">
+        <createTable tableName="demo_user" remarks="用户表">
+            <column name="id" type="bigint" autoIncrement="true" remarks="用户ID,主键">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(100)" remarks="用户名">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
