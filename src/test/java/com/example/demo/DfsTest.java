@@ -13,7 +13,7 @@ public class DfsTest {
     public void uploadTest() {
         try {
             FastDFSClient fastDFSClient = new FastDFSClient();
-            File file = new File("E:\\tmp\\data-2019-08-12.log");
+            File file = new File("E:\\test.txt");
             byte[] bytes = toByteArray(file);
             System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, "txt", null));
             System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, "txt", null));
