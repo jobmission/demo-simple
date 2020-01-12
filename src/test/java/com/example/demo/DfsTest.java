@@ -10,7 +10,7 @@ public class DfsTest {
 
     @Ignore
     @Test
-    void uploadTest() {
+    public void uploadTest() {
         try {
             FastDFSClient fastDFSClient = new FastDFSClient();
             File file = new File("E:\\tmp\\data-2019-08-12.log");

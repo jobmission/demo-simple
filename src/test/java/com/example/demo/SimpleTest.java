@@ -4,7 +4,6 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import net.minidev.json.JSONArray;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class SimpleTest {
     @Ignore
     @Test
     public void quickSortTest() {
-        int[] arr = { 10, 7, 2, 4, 7, 62, 3, 4, 2, 1, 8, 9, 19 };
+        int[] arr = {10, 7, 2, 4, 7, 62, 3, 4, 2, 1, 8, 9, 19};
         quickSort(arr, 0, arr.length - 1);
 
         for (int i = 0; i < arr.length; i++) {
@@ -81,9 +80,9 @@ public class SimpleTest {
 
         byte[] b = new byte[2]; // 转化为B类型
 
-        b[0] = (new Integer(176 + highPos)).byteValue(); // 高字节
+        b[0] = Integer.valueOf(176 + highPos).byteValue(); // 高字节
 
-        b[1] = (new Integer(161 + lowPos)).byteValue(); // 低字节
+        b[1] = Integer.valueOf(161 + lowPos).byteValue(); // 低字节
 
         str = new String(b, "GBK");
 
@@ -94,25 +93,25 @@ public class SimpleTest {
     @Test
     public void jsonpath() {
         String json = "{\n" + "    \"store\": {\n" + "        \"book\": [\n" + "            {\n"
-                + "                \"category\": \"reference\",\n" + "                \"author\": \"Nigel Rees\",\n"
-                + "                \"title\": \"Sayings of the Century\",\n" + "                \"price\": 8.95\n"
-                + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-                + "                \"author\": \"Evelyn Waugh\",\n"
-                + "                \"title\": \"Sword of Honour\",\n" + "                \"price\": 12.99\n"
-                + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-                + "                \"author\": \"Herman Melville\",\n" + "                \"title\": \"Moby Dick\",\n"
-                + "                \"isbn\": \"0-553-21311-3\",\n" + "                \"price\": 8.99\n"
-                + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-                + "                \"author\": \"J. R. R. Tolkien\",\n"
-                + "                \"title\": \"The Lord of the Rings\",\n"
-                + "                \"isbn\": \"0-395-19395-8\",\n" + "                \"price\": 22.99\n"
-                + "            }\n" + "        ],\n" + "        \"bicycle\": {\n" + "            \"color\": \"red\",\n"
-                + "            \"price\": 19.95\n" + "        },\n" + "        \"realm_access\":{\n"
-                + "            \"roles\":[\"a\",\"b\",\"c\"]\n" + "        },\n" + "        \"resource_access\":{\n"
-                + "            \"roles\":[\"c\",\"d\",\"e\",\"f\"]\n" + "        },\n"
-                + "        \"roles\": [\"h\",\"i\"]\n" + "    },\n" + "    \"expensive\": 10,\n"
-                + "\"name\": \"zhangsan\",\n" + "\"todo\": [\"zhangsan\",\"lisi\",\"wangwu\"],\n"
-                + "\"roles\": [\"zhangsan\",\"lisi\",\"wangwu\"]\n" + "}";
+            + "                \"category\": \"reference\",\n" + "                \"author\": \"Nigel Rees\",\n"
+            + "                \"title\": \"Sayings of the Century\",\n" + "                \"price\": 8.95\n"
+            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
+            + "                \"author\": \"Evelyn Waugh\",\n"
+            + "                \"title\": \"Sword of Honour\",\n" + "                \"price\": 12.99\n"
+            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
+            + "                \"author\": \"Herman Melville\",\n" + "                \"title\": \"Moby Dick\",\n"
+            + "                \"isbn\": \"0-553-21311-3\",\n" + "                \"price\": 8.99\n"
+            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
+            + "                \"author\": \"J. R. R. Tolkien\",\n"
+            + "                \"title\": \"The Lord of the Rings\",\n"
+            + "                \"isbn\": \"0-395-19395-8\",\n" + "                \"price\": 22.99\n"
+            + "            }\n" + "        ],\n" + "        \"bicycle\": {\n" + "            \"color\": \"red\",\n"
+            + "            \"price\": 19.95\n" + "        },\n" + "        \"realm_access\":{\n"
+            + "            \"roles\":[\"a\",\"b\",\"c\"]\n" + "        },\n" + "        \"resource_access\":{\n"
+            + "            \"roles\":[\"c\",\"d\",\"e\",\"f\"]\n" + "        },\n"
+            + "        \"roles\": [\"h\",\"i\"]\n" + "    },\n" + "    \"expensive\": 10,\n"
+            + "\"name\": \"zhangsan\",\n" + "\"todo\": [\"zhangsan\",\"lisi\",\"wangwu\"],\n"
+            + "\"roles\": [\"zhangsan\",\"lisi\",\"wangwu\"]\n" + "}";
 
         Configuration conf = Configuration.builder().options(Option.SUPPRESS_EXCEPTIONS).build();
         Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
