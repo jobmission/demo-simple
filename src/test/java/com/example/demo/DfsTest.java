@@ -1,19 +1,20 @@
 package com.example.demo;
 
-import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.FileInfo;
 import org.csource.fastdfs.StorageClient1;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Properties;
 
 public class DfsTest {
-
-    String trackerServers = "192.168.1.6:22122";
+    private static final Logger log = LoggerFactory.getLogger(DfsTest.class);
+    String trackerServers = "10.9.16.158:22122";
 
     @Ignore
     @Test
@@ -30,18 +31,13 @@ public class DfsTest {
             //这是个数组，可以继续添加
             metaList[0] = new NameValuePair("fileName", fileName);
             metaList[1] = new NameValuePair("category", "advertisement");
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, suffix, metaList));
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, suffix, metaList));
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, suffix, metaList));
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group1").upload_file1(bytes, suffix, metaList));
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group2").upload_file1(bytes, suffix, metaList));
-            System.out.println("newName: " + fastDFSClient.getStorageClient1("group3").upload_file1(bytes, suffix, metaList));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (MyException e) {
-            e.printStackTrace();
+            log.info("newName: " + fastDFSClient.getStorageClient1("group1", 0).upload_file1(bytes, suffix, metaList));
+            log.info("newName: " + fastDFSClient.getStorageClient1("group1", 0).upload_file1(bytes, suffix, metaList));
+            log.info("newName: " + fastDFSClient.getStorageClient1("group1", 0).upload_file1(bytes, suffix, metaList));
+            log.info("newName: " + fastDFSClient.getStorageClient1("group1", 1).upload_file1(bytes, suffix, metaList));
+            log.info("newName: " + fastDFSClient.getStorageClient1("group1", 1).upload_file1(bytes, suffix, metaList));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("exception", e);
         }
 
     }
