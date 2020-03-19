@@ -3,27 +3,55 @@ package com.example.demo.persistence.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PersonEntityExample {
-    protected String orderByClause;
-
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
+    private Map<String, String> orderByClause;
+
+    private Set<String> tableFields;
+
+    /**
+     * 期望返回部分字段，以逗号分割开
+     */
     private String commaSeparatedColumns;
 
     public PersonEntityExample() {
         oredCriteria = new ArrayList<>();
-    }
-
-    public void setOrderByClause(String orderByClause) {
-        this.orderByClause = orderByClause;
+        tableFields = new HashSet<>();
+        tableFields.add("id");
+        tableFields.add("name");
+        tableFields.add("gender");
+        tableFields.add("address");
+        tableFields.add("phone");
+        tableFields.add("email");
+        tableFields.add("record_status");
+        tableFields.add("remarks");
+        tableFields.add("sort_priority");
+        tableFields.add("version");
+        tableFields.add("age");
+        tableFields.add("birthday");
+        tableFields.add("date_created");
+        tableFields.add("last_modified");
     }
 
     public String getOrderByClause() {
-        return orderByClause;
+        if (orderByClause != null && orderByClause.size() > 0) {
+            StringBuffer sb = new StringBuffer();
+            orderByClause.forEach((k, v) -> {
+                sb.append(',' + k + ' ' + v);
+            });
+            return sb.toString().replaceFirst(",", "");
+        } else {
+            return null;
+        }
     }
 
     public void setDistinct(boolean distinct) {
@@ -67,6 +95,66 @@ public class PersonEntityExample {
         distinct = false;
     }
 
+    private String underlineName(String name) {
+        StringBuilder result = new StringBuilder();
+        if (name != null && name.length() > 0) {
+            result.append(name, 0, 1);
+            for (int i = 1; i < name.length(); i++) {
+                String s = name.substring(i, i + 1);
+                if (s.equals(s.toUpperCase()) && !Character.isDigit(s.charAt(0))) {
+                    result.append("_");
+                }
+                result.append(s.toLowerCase());
+            }
+        }
+        return result.toString();
+    }
+
+    public void addOrderBy(String fieldName, String sortOrder) {
+        boolean findFieldName = false;
+        if (tableFields.contains(fieldName)) {
+            findFieldName = true;
+        } else {
+            fieldName = underlineName(fieldName);
+            if (tableFields.contains(fieldName)) {
+                findFieldName = true;
+            }
+        }
+        if (findFieldName) {
+            String sortDirection = "desc";
+            if (("asc".equalsIgnoreCase(sortOrder))) {
+                sortDirection = "asc";
+            }
+            if (orderByClause != null) {
+                orderByClause.put(fieldName, sortDirection);
+            } else {
+                orderByClause = new LinkedHashMap<>();
+                orderByClause.put(fieldName, sortDirection);
+            }
+        }
+    }
+
+    /**
+     * 重载addOrderBy
+     *
+     * @param orderBys 排序子句，不要带 order by
+     */
+    public void addOrderBy(String orderBys) {
+        if (orderBys == null || "".equals(orderBys.trim())) {
+            return;
+        }
+        String[] orders = orderBys.trim().split(",");
+        for (String order : orders) {
+            String[] fieldOrder = order.trim().split(" ");
+            if (fieldOrder.length == 2) {
+                addOrderBy(fieldOrder[0], fieldOrder[1]);
+            }
+        }
+    }
+
+    /**
+     * @param commaSeparatedColumns 期望返回部分字段，以逗号分割开
+     */
     public void setCommaSeparatedColumns(String commaSeparatedColumns) {
         this.commaSeparatedColumns = commaSeparatedColumns;
     }

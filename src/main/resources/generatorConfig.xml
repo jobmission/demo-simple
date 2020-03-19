@@ -17,6 +17,7 @@
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <plugin type="com.revengemission.plugins.mybatis.OrderByPlugin"/>
         <plugin type="com.revengemission.plugins.mybatis.BatchInsertPlugin"/>
         <plugin type="com.revengemission.plugins.mybatis.ExampleCriterionExtendPlugin"/>
         <plugin type="com.revengemission.plugins.mybatis.SelectColumnsByExamplePlugin"/>
