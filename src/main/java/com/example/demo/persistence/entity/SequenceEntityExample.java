@@ -147,6 +147,20 @@ public class SequenceEntityExample {
     }
 
     /**
+     * 重载addOrderBy
+     *
+     * @param orderBys 字段名,asc|desc
+     */
+    public void addOrderBy(Map<String, String> orderBys) {
+        if (orderBys == null || orderBys.size() == 0) {
+            return;
+        }
+        orderBys.forEach((k, v) -> {
+            addOrderBy(k.trim(), v);
+        });
+    }
+
+    /**
      * @param commaSeparatedColumns 期望返回部分字段，以逗号分割开
      */
     public void setCommaSeparatedColumns(String commaSeparatedColumns) {
