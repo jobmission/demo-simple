@@ -4,7 +4,7 @@ create TABLE IF NOT EXISTS `article_entity` (
   `author` varchar(255)  NOT NULL,
   `title` varchar(255)  NOT NULL,
   `tags` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
+  `content` text,
   `pj` json DEFAULT NULL,
   `record_status` int(11) DEFAULT '0',
   `remarks` varchar(255) DEFAULT NULL,

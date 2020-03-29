@@ -73,6 +73,7 @@
         <table tableName="%_entity">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pj" jdbcType="JAVA_OBJECT" javaType="Object"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"></columnOverride>
             <ignoreColumn column="bcolumn"/>
             <ignoreColumn column="lcolumn"/>
             <ignoreColumnsByRegex pattern="(?i)v_.*">

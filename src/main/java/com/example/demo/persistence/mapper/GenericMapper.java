@@ -9,19 +9,19 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface GenericMapper {
-    @Select("<match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any>")
-    @Lang(MatchAnyLangDriver.class)
+    @Select("<script><match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any></script>")
+    @Lang(MatchAnyLanguageDriver.class)
     Map<String, Object> queryForMap(Map<String, Object> paramsMapWithSql);
 
-    @Select("<match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any>")
-    @Lang(MatchAnyLangDriver.class)
+    @Select("<script><match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any></script>")
+    @Lang(MatchAnyLanguageDriver.class)
     List<Map<String, Object>> queryForList(Map<String, Object> paramsMapWithSql);
 
-    @Select("<match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any>")
-    @Lang(MatchAnyLangDriver.class)
+    @Select("<script><match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any></script>")
+    @Lang(MatchAnyLanguageDriver.class)
     Object queryForObject(Map<String, Object> paramsMapWithSql);
 
-    @Update("<match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any>")
-    @Lang(MatchAnyLangDriver.class)
+    @Update("<script><match_any>不需要修改这一行！paramsMapWithSql 中放入sql 语句以及需要的占位符参数</match_any></script>")
+    @Lang(MatchAnyLanguageDriver.class)
     int update(Map<String, Object> paramsMapWithSql);
 }

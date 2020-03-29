@@ -4,6 +4,7 @@ import com.example.demo.persistence.entity.ArticleEntity;
 import com.example.demo.persistence.entity.ArticleEntityExample;
 import com.example.demo.persistence.entity.PersonEntity;
 import com.example.demo.persistence.mapper.ArticleEntityMapper;
+import com.example.demo.persistence.mapper.GenericMapper;
 import com.example.demo.persistence.mapper.PersonEntityMapper;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,7 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RunWith(SpringRunner.class)
@@ -29,6 +32,9 @@ public class DemoApplicationTests {
 
     @Autowired
     PersonEntityMapper personEntityMapper;
+
+    @Autowired
+    GenericMapper genericMapper;
 
 
     @Test
@@ -57,6 +63,30 @@ public class DemoApplicationTests {
         list.forEach(System.out::println);
 
         System.out.println();
+
+    }
+
+    @Test
+    @Ignore
+    public void genericMapperTest() {
+
+        Map<String, Object> paramsMapWithSql = new HashMap<>();
+        String sql = "select *from person_entity " +
+            "<where>" +
+            "<if test=\"name != null\">" +
+            "     AND   name = #{name,jdbcType=VARCHAR}" +
+            "</if>" +
+            "<if test=\"gender != null\">" +
+            "     AND   gender = #{gender,jdbcType=INTEGER}" +
+            "</if>" +
+            "</where>";
+
+//        paramsMapWithSql.put("name", "e");
+        paramsMapWithSql.put("gender", 2);
+        paramsMapWithSql.put("sql", sql);
+
+        List<Map<String, Object>> list = genericMapper.queryForList(paramsMapWithSql);
+        list.forEach(System.out::println);
 
     }
 
