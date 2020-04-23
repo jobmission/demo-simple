@@ -34,13 +34,28 @@ spring:
         hikari:
             max-lifetime: 300000
     redis:
-        host: 10.12.8.175
+        host: localhost
         port: 6379
-        password: tctc2017
+        password: guest
     cache:
         type: redis
         redis:
             cache-null-values: false
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+        publisher-confirms: true
+        virtual-host: /
+        listener:
+            simple:
+                #                retry:
+                #                    enabled: true
+                #                    max-attempts: 2
+                #                    initial-interval: 1000
+                acknowledge-mode: manual  #none、manual、auto
+                default-requeue-rejected: false
 mybatis:
     mapper-locations: classpath:appMappers/*.xml
 

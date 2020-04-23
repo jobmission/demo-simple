@@ -35,7 +35,7 @@ public class ScheduleTask {
      */
     @Scheduled(cron = "0 */1 * * * ?")
     public void task2() {
-        long count2 = personEntityMapper.countByExample(new PersonEntityExample());
-        log.info("PersonEntity:" + count2);
+/*        long count2 = personEntityMapper.countByExample(new PersonEntityExample());
+        log.info("PersonEntity:" + count2);*/
     }
 }
