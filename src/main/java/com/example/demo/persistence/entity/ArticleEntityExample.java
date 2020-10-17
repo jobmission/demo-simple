@@ -13,14 +13,21 @@ public class ArticleEntityExample {
 
     protected List<Criteria> oredCriteria;
 
+    private String allowLettersPattern = "[_0-9a-zA-Z]+";
+
     private Map<String, String> orderByClause;
 
     private Set<String> tableFields;
 
     /**
-     * 期望返回部分字段，以逗号分割开
+     * 期望返回字段，以逗号分割开
      */
     private String commaSeparatedColumns;
+
+    /**
+     * aggregate query clause 语句, 注意未做防注入处理
+     */
+    private String aggregateQueryClause;
 
     public ArticleEntityExample() {
         oredCriteria = new ArrayList<>();
@@ -107,6 +114,21 @@ public class ArticleEntityExample {
         return result.toString();
     }
 
+    public void addOrderBySpecial(String fieldName, String sortOrder) {
+        if (fieldName.matches(allowLettersPattern)) {
+            String sortDirection = "desc";
+            if (("asc".equalsIgnoreCase(sortOrder))) {
+                sortDirection = "asc";
+            }
+            if (orderByClause != null) {
+                orderByClause.put(fieldName, sortDirection);
+            } else {
+                orderByClause = new LinkedHashMap<>();
+                orderByClause.put(fieldName, sortDirection);
+            }
+        }
+    }
+
     public void addOrderBy(String fieldName, String sortOrder) {
         boolean findFieldName = false;
         if (tableFields.contains(fieldName)) {
@@ -164,7 +186,7 @@ public class ArticleEntityExample {
     }
 
     /**
-     * @param commaSeparatedColumns 期望返回部分字段，以逗号分割开
+     * @param commaSeparatedColumns 期望返回字段，以逗号分割开
      */
     public void setCommaSeparatedColumns(String commaSeparatedColumns) {
         this.commaSeparatedColumns = commaSeparatedColumns;
@@ -172,6 +194,17 @@ public class ArticleEntityExample {
 
     public String getCommaSeparatedColumns() {
         return commaSeparatedColumns;
+    }
+
+    /**
+     * @param aggregateQueryClause aggregate query 语句, 注意未做防注入处理
+     */
+    public void setAggregateQueryClause(String aggregateQueryClause) {
+        this.aggregateQueryClause = aggregateQueryClause;
+    }
+
+    public String getAggregateQueryClause() {
+        return aggregateQueryClause;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -203,7 +236,7 @@ public class ArticleEntityExample {
 
         protected void addCriterion(String condition, Object value, String property) {
             if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
+                return;
             }
             criteria.add(new Criterion(condition, value));
         }

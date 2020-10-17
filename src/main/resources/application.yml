@@ -9,8 +9,8 @@ management:
 logging:
     level:
         root: info
-        org.apache.ibatis: debug
-        com.example.demo.persistence: debug
+        org.apache.ibatis: info
+        com.example.demo.persistence: info
     file:
         path: /data/logs/demo
 spring:

@@ -3,6 +3,7 @@ package com.example.demo.persistence.mapper;
 import com.example.demo.persistence.entity.InformationEntity;
 import com.example.demo.persistence.entity.InformationEntityExample;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,6 +36,11 @@ public interface InformationEntityMapper {
     List<InformationEntity> selectColumnsByExample(InformationEntityExample example);
 
     List<Long> selectIdsByExample(InformationEntityExample example);
+
+    /**
+     * 聚合查询
+     */
+    List<Map<String, Object>> aggregateQueryByExample(InformationEntityExample example);
 
     InformationEntity selectUniqueByExample(InformationEntityExample example);
 

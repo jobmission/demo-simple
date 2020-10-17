@@ -380,12 +380,28 @@
     </if>
     from article_entity
     <include refid="Example_Where_Clause" />
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
   <select id="selectIdsByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.lang.Long">
     select 
     id 
     from article_entity
     <include refid="Example_Where_Clause" />
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="aggregateQueryByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.util.HashMap">
+    select 
+    ${commaSeparatedColumns} 
+    from article_entity
+    <include refid="Example_Where_Clause" />
+    ${groupByClause} 
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
   <select id="selectUniqueByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultMap="BaseResultMap">
     select
