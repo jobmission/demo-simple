@@ -6,14 +6,13 @@ import com.example.demo.persistence.entity.PersonEntity;
 import com.example.demo.persistence.mapper.ArticleEntityMapper;
 import com.example.demo.persistence.mapper.GenericMapper;
 import com.example.demo.persistence.mapper.PersonEntityMapper;
+import com.example.demo.service.ProcessService;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
 
@@ -36,9 +34,12 @@ public class DemoApplicationTests {
     @Autowired
     GenericMapper genericMapper;
 
+    @Autowired
+    ProcessService processService;
+
 
     @Test
-    @Ignore
+    @Disabled
     public void contextLoads() {
         System.out.println("count:" + articleMapper.countByExample(new ArticleEntityExample()));
 
@@ -67,7 +68,7 @@ public class DemoApplicationTests {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void genericMapperTest() {
 
         Map<String, Object> paramsMapWithSql = new HashMap<>();
@@ -91,7 +92,7 @@ public class DemoApplicationTests {
     }
 
 
-    @Ignore
+    @Disabled
     @Test
     public void insertArticle() {
 
@@ -134,7 +135,7 @@ public class DemoApplicationTests {
 
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void selectArticle() {
         ArticleEntityExample articleEntityExample = new ArticleEntityExample();
@@ -154,7 +155,7 @@ public class DemoApplicationTests {
         System.out.println();
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void insertPerson() {
         PersonEntity personEntity = new PersonEntity();
@@ -166,11 +167,10 @@ public class DemoApplicationTests {
         personEntityMapper.insertSelective(personEntity);
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void logicalDeleteTest() {
-        articleMapper.logicalDeleteById(1);
-        articleMapper.logicalDeleteById(2);
-        articleMapper.logicalDeleteByIds(new long[]{5, 6});
+        processService.processTransaction();
+//        int b = 1 / 0;
     }
 }

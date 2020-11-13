@@ -4,19 +4,25 @@ import org.csource.common.NameValuePair;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.FileInfo;
 import org.csource.fastdfs.StorageClient1;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class DfsTest {
     private static final Logger log = LoggerFactory.getLogger(DfsTest.class);
     String trackerServers = "10.9.16.158:22122";
 
-    @Ignore
+    @Disabled
     @Test
     public void uploadTest() {
         Properties properties = new Properties();
@@ -42,7 +48,7 @@ public class DfsTest {
 
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testQuery() {
         Properties properties = new Properties();
@@ -66,7 +72,7 @@ public class DfsTest {
         }
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testDownLoad() {
         Properties properties = new Properties();

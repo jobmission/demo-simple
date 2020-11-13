@@ -1,20 +1,14 @@
 package com.example.demo;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
-import net.minidev.json.JSONArray;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Random;
 
 public class SimpleTest {
 
-    @Ignore
+    @Disabled
     @Test
     public void quickSortTest() {
         int[] arr = {10, 7, 2, 4, 7, 62, 3, 4, 2, 1, 8, 9, 19};
@@ -63,7 +57,7 @@ public class SimpleTest {
 
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void printChinese() throws UnsupportedEncodingException {
 
@@ -89,59 +83,5 @@ public class SimpleTest {
         return str;
     }
 
-    @Ignore
-    @Test
-    public void jsonpath() {
-        String json = "{\n" + "    \"store\": {\n" + "        \"book\": [\n" + "            {\n"
-            + "                \"category\": \"reference\",\n" + "                \"author\": \"Nigel Rees\",\n"
-            + "                \"title\": \"Sayings of the Century\",\n" + "                \"price\": 8.95\n"
-            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-            + "                \"author\": \"Evelyn Waugh\",\n"
-            + "                \"title\": \"Sword of Honour\",\n" + "                \"price\": 12.99\n"
-            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-            + "                \"author\": \"Herman Melville\",\n" + "                \"title\": \"Moby Dick\",\n"
-            + "                \"isbn\": \"0-553-21311-3\",\n" + "                \"price\": 8.99\n"
-            + "            },\n" + "            {\n" + "                \"category\": \"fiction\",\n"
-            + "                \"author\": \"J. R. R. Tolkien\",\n"
-            + "                \"title\": \"The Lord of the Rings\",\n"
-            + "                \"isbn\": \"0-395-19395-8\",\n" + "                \"price\": 22.99\n"
-            + "            }\n" + "        ],\n" + "        \"bicycle\": {\n" + "            \"color\": \"red\",\n"
-            + "            \"price\": 19.95\n" + "        },\n" + "        \"realm_access\":{\n"
-            + "            \"roles\":[\"a\",\"b\",\"c\"]\n" + "        },\n" + "        \"resource_access\":{\n"
-            + "            \"roles\":[\"c\",\"d\",\"e\",\"f\"]\n" + "        },\n"
-            + "        \"roles\": [\"h\",\"i\"]\n" + "    },\n" + "    \"expensive\": 10,\n"
-            + "\"name\": \"zhangsan\",\n" + "\"todo\": [\"zhangsan\",\"lisi\",\"wangwu\"],\n"
-            + "\"roles\": [\"zhangsan\",\"lisi\",\"wangwu\"]\n" + "}";
 
-        Configuration conf = Configuration.builder().options(Option.SUPPRESS_EXCEPTIONS).build();
-        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
-
-        List<String> result1 = JsonPath.read(document, "$.store.book[*].author");
-        Assert.assertNotNull(result1);
-        List<Object> result2 = JsonPath.using(conf).parse(document).read("$..roles");
-        Assert.assertNotNull(result2);
-        List<String> result3 = JsonPath.read(document, "$..resource_access.roles");
-        Assert.assertNotNull(result3);
-        List<String> result4 = JsonPath.read(document, "$.store.resource_access.roles");
-        Assert.assertNotNull(result4);
-        List<String> result5 = JsonPath.read(document, "$.*.resource_access.roles");
-        Assert.assertNotNull(result5);
-        List<String> result6 = JsonPath.read(document, "$.store..price");
-        Assert.assertNotNull(result6);
-        Object result7 = JsonPath.using(conf).parse(document).read("$.name");
-        Assert.assertNotNull(result7);
-        Object result8 = JsonPath.using(conf).parse(document).read("$.todo");
-        Assert.assertNotNull(result8);
-        Object result9 = JsonPath.using(conf).parse(document).read("$.todo33.aa");
-        Assert.assertEquals(result9, null);
-
-        result2.forEach(o -> {
-            if (o instanceof JSONArray) {
-                System.out.println(o);
-            } else {
-                System.out.println(o);
-            }
-        });
-
-    }
 }

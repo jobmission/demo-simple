@@ -12,9 +12,8 @@
 //import org.elasticsearch.client.RestClient;
 //import org.elasticsearch.client.RestHighLevelClient;
 //import org.elasticsearch.common.xcontent.XContentType;
-//import org.junit.Ignore;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
+//import org.junit.jupiter.api.Disabled;
+//import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.junit4.SpringRunner;
@@ -28,7 +27,6 @@
 ///**
 // * 随机生成中文姓名，性别，Email，手机号，住址
 // */
-//@RunWith(SpringRunner.class)
 //@SpringBootTest
 //public class CreatePerson {
 //
@@ -147,7 +145,7 @@
 //        return map;
 //    }
 //
-//    @Ignore
+//    @Disabled
 //    @Test
 //    public void testPerson() {
 //        List<PersonEntity> personEntityList = new ArrayList<>();
@@ -169,7 +167,7 @@
 //        }
 //    }
 //
-//    //@Ignore
+//    @Disabled
 //    @Test
 //    public void testElasticsearch() throws IOException {
 //

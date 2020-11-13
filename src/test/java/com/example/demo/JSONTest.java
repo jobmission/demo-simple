@@ -3,16 +3,16 @@ package com.example.demo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JSONTest {
 
-
-    @Ignore
+    @Disabled
     @Test
     public void jsonPointer() throws JsonProcessingException {
 
@@ -39,7 +39,6 @@ public class JSONTest {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(json);
-
         JsonNode firstName = node.at("/firstName");
         System.out.println("firstName:" + firstName.asText());
 
@@ -52,6 +51,14 @@ public class JSONTest {
         JsonNode nameNode = node.at("/grade/0/name");
 
         System.out.println("name:" + nameNode.asText());
+
+        JsonNode name2Node = node.findPath("name");
+
+        List<JsonNode> values = node.findValues("name");
+
+        List<String> valuesAsText = node.findValuesAsText("name");
+
+        System.out.println("name2Node:" + name2Node.asText());
 
         if (phoneNode.isArray()) {
             Iterator<JsonNode> elements = phoneNode.elements();
