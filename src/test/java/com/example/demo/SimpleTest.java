@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class SimpleTest {
 
@@ -83,5 +84,17 @@ public class SimpleTest {
         return str;
     }
 
+
+    @Disabled
+    @Test
+    public void name() {
+        String sql = "w select *  from a where b=1 order by id".toLowerCase();
+
+        Pattern p1 = Pattern.compile(".*select.*", Pattern.DOTALL);
+        Pattern p2 = Pattern.compile("(\\s*explain)?\\s*select[^;]*;?\\s*", Pattern.DOTALL);
+
+        System.out.println(p1.matcher(sql).matches());
+        System.out.println(p2.matcher(sql).matches());
+    }
 
 }

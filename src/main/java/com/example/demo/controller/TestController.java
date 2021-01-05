@@ -66,8 +66,8 @@ public class TestController implements InitializingBean {
     @ResponseBody
     @RequestMapping("/t5")
     public Instant t5() {
-        System.out.println("=================" + LocalDateTime.parse("2019-10-24T11:10:57").toInstant(ZoneOffset.UTC));
-        System.out.println("=================" + LocalDateTime.parse("2019-10-24T11:10:57"));
+        log.info("=================" + LocalDateTime.parse("2019-10-24T11:10:57").toInstant(ZoneOffset.UTC));
+        log.info("=================" + LocalDateTime.parse("2019-10-24T11:10:57"));
         return LocalDateTime.parse("2019-10-24T11:10:57").toInstant(ZoneOffset.UTC);
     }
 
@@ -96,14 +96,14 @@ public class TestController implements InitializingBean {
         // ZonedDateTime dateAndTimeInNewYork
         // =ZonedDateTime.of(localDateAndTime,america);
         ZonedDateTime dateAndTimeInNewYork = ZonedDateTime.now(america);
-        System.out.println("Current date and time in a particular timezone : " + dateAndTimeInNewYork.toInstant());
+        log.info("Current date and time in a particular timezone : " + dateAndTimeInNewYork.toInstant());
         return dateAndTimeInNewYork;
     }
 
     @ResponseBody
     @RequestMapping("/t2")
     public List<ArticleEntity> t2(
-            @RequestParam(value = "author", required = false, defaultValue = "abc") String author) {
+        @RequestParam(value = "author", required = false, defaultValue = "abc") String author) {
 
         if (dataSource instanceof HikariDataSource) {
             HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
@@ -128,12 +128,12 @@ public class TestController implements InitializingBean {
 
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (parameterMap != null) {
-            System.out.println("parameterMap:" + JsonUtil.multiValueMapToJsonString(parameterMap));
+            log.info("parameterMap:" + JsonUtil.multiValueMapToJsonString(parameterMap));
         }
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                System.out.println("cookie=" + cookie.getName() + ":" + cookie.getValue());
+                log.info("cookie=" + cookie.getName() + ":" + cookie.getValue());
             }
         }
 
@@ -146,10 +146,10 @@ public class TestController implements InitializingBean {
             // 根据头名字获取对应的值
             String value = request.getHeader(name);
             // 输出：
-            System.out.println("header:" + name + ":    " + value);
+            log.info("header:" + name + ":    " + value);
         }
 
-        System.out.println("getRequestURI:" + request.getRequestURI());
+        log.info("getRequestURI:" + request.getRequestURI());
         return result;
     }
 
@@ -157,18 +157,13 @@ public class TestController implements InitializingBean {
     @ResponseBody
     @RequestMapping(value = "/sse/push", produces = "text/event-stream;charset=UTF-8")
     public String ssePushTest() {
-        try {
-            System.out.println(LocalTime.now());
-            /// 业务逻辑处理
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        log.info(LocalTime.now().toString());
         return "data:模拟动态数据" + Math.random() + "\n\n";
     }
 
     @Override
     public void afterPropertiesSet() {
-        System.out.println("afterPropertiesSet");
+        log.info("afterPropertiesSet");
     }
 
 }
