@@ -3,27 +3,40 @@ package com.example.demo;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,7 +101,6 @@ public class JFreeChartTest {
 
         //获取X轴的对象
         CategoryAxis categoryAxis = (CategoryAxis) categoryPlot.getDomainAxis();
-
         //获取Y轴的对象
         NumberAxis numberAxis = (NumberAxis) categoryPlot.getRangeAxis();
 
@@ -222,6 +234,142 @@ public class JFreeChartTest {
                 }
             }
         }
+    }
+
+
+    @Disabled
+    @Test
+    public void chartTest2() throws IOException {
+        XYDataset xyDataset = createDataset();
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("数量/月份", "月份", "数量",
+            xyDataset, true, true, true);
+        XYPlot plot = (XYPlot) chart.getPlot();
+        DateAxis dateaxis = (DateAxis) plot.getDomainAxis();
+        dateaxis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM"));
+        dateaxis.setLabelFont(new Font("黑体", Font.BOLD, 14));         //水平底部标题
+        dateaxis.setTickLabelFont(new Font("宋体", Font.BOLD, 12));  //垂直标题
+        ValueAxis rangeAxis = plot.getRangeAxis();//获取柱状
+        rangeAxis.setLabelFont(new Font("黑体", Font.BOLD, 15));
+        chart.getLegend().setItemFont(new Font("黑体", Font.BOLD, 15));
+        chart.getTitle().setFont(new Font("宋体", Font.BOLD, 20));//设置标题字体
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream("E:\\deleted\\2.jpg");
+            ChartUtils.writeChartAsJPEG(out, 0.5f, chart, 800, 600, null);
+        } finally {
+            try {
+                out.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private XYDataset createDataset() {
+        TimeSeries timeseries = new TimeSeries("数量");
+        timeseries.add(new Month(2, 2001), 181.80);
+        timeseries.add(new Month(3, 2001), 167.30);
+        timeseries.add(new Month(4, 2001), 153.80);
+        timeseries.add(new Month(5, 2001), 167.59);
+        timeseries.add(new Month(6, 2001), 158.80);
+        timeseries.add(new Month(7, 2001), 148.30);
+        timeseries.add(new Month(8, 2001), 153.90);
+        timeseries.add(new Month(9, 2001), 142.69);
+        timeseries.add(new Month(10, 2001), 123.2);
+        timeseries.add(new Month(11, 2001), 131.80);
+        timeseries.add(new Month(12, 2001), 139.59);
+        timeseries.add(new Month(1, 2002), 142.90);
+        timeseries.add(new Month(2, 2002), 138.69);
+        timeseries.add(new Month(3, 2002), 137.30);
+        timeseries.add(new Month(4, 2002), 143.90);
+        timeseries.add(new Month(5, 2002), 139.80);
+        timeseries.add(new Month(6, 2002), 137);
+        timeseries.add(new Month(7, 2002), 132.80);
+        TimeSeriesCollection timeseriescollection = new TimeSeriesCollection();
+        timeseriescollection.addSeries(timeseries);
+        return timeseriescollection;
+    }
+
+    //    https://blog.csdn.net/qq_24194029/article/details/84634082
+    private XYSeriesCollection createXYDataset() {
+        // 注入数据1
+        XYSeries linedataset1 = new XYSeries("线1");
+        linedataset1.add(1, 13.79);
+        linedataset1.add(5, 6.81);
+        linedataset1.add(15, 4.29);
+        linedataset1.add(20, 3.36);
+
+        // 注入数据2
+        XYSeries linedataset2 = new XYSeries("线2");
+        linedataset2.add(1, 3.79);
+        linedataset2.add(3, 4.29);
+        linedataset2.add(15, 6.81);
+        linedataset2.add(27, 13.36);
+        linedataset2.add(25, 3.36);
+
+        //建立数据模型
+        XYSeriesCollection localXYSeriesCollection = new XYSeriesCollection();
+        localXYSeriesCollection.addSeries(linedataset1);
+        localXYSeriesCollection.addSeries(linedataset2);
+        return localXYSeriesCollection;
+    }
+
+    @Disabled
+    @Test
+    public void chartTest3() throws IOException, InterruptedException {
+        //建立数据模型
+        XYSeriesCollection localXYSeriesCollection = createXYDataset();
+
+        XYSplineRenderer splinerenderer = new XYSplineRenderer();
+        //设置线的笔触（粗细）
+//        splinerenderer.setSeriesStroke(0, new BasicStroke(4.0F, 1, 1, 1.0F));
+//        splinerenderer.setSeriesStroke(1, new BasicStroke(4.0F, 1, 1, 1.0F));
+
+        splinerenderer.setPrecision(2);// 设置精度差（影响曲线弧度）
+
+
+        //设置横纵坐标描述
+        NumberAxis xAxis = new NumberAxis("描述1");
+        xAxis.setAutoRangeIncludesZero(false);
+//        xAxis.setAutoRange(false);
+        xAxis.setNumberFormatOverride(new DecimalFormat());
+        NumberAxis yAxis = new NumberAxis("描述2");
+        yAxis.setAutoRangeIncludesZero(false);
+
+        XYPlot plot = new XYPlot(localXYSeriesCollection, xAxis, yAxis, splinerenderer);
+        // x轴 // 分类轴网格是否可见
+        plot.setDomainGridlinesVisible(true);
+        // y轴 //数据轴网格是否可见
+        plot.setRangeGridlinesVisible(true);
+        // 是否显示格子线
+        plot.setRangeGridlinesVisible(true);
+        // 设置背景透明度
+        plot.setBackgroundAlpha(0.3f);
+        // 数据轴（y轴）色彩
+        plot.setRangeGridlinePaint(Color.black);
+        // 分类轴（x轴）色彩
+        plot.setDomainGridlinePaint(Color.black);
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        //数据轴的数据标签（可以只显示整数标签，需要将AutoTickUnitSelection设false）
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        //是否强制在自动选择的数据范围中包含0
+        rangeAxis.setAutoRangeIncludesZero(true);
+        //设置坐标轴间距但必须满足一定条件
+        rangeAxis.setUpperMargin(1);// Y轴间距
+        rangeAxis.setLowerMargin(1);//X轴间距
+        //坐标轴标题旋转角度（纵坐标可以旋转）
+        rangeAxis.setLabelAngle(Math.PI / 2.0);
+
+        JFreeChart chart = new JFreeChart("测试", // 标题
+            JFreeChart.DEFAULT_TITLE_FONT, // 标题的字体，这样就可以解决中文乱码的问题
+            plot, true);
+
+        ChartFrame pieFrame = new ChartFrame("统计图", chart);
+        pieFrame.pack();
+        pieFrame.setVisible(true);
+
+        Thread.sleep(40000);
     }
 
 }
