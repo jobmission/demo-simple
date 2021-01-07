@@ -1,5 +1,7 @@
-package data;
+package com.example.demo;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class AutoTest {
+public class SeleniumTest {
 
-    public static void main(String[] args) throws Exception {
+    @Disabled
+    @Test
+    public void autoTest() throws Exception {
 //        谷歌浏览器的驱动下载地址：https://chromedriver.storage.googleapis.com/index.html
 //        最新稳定版下载地址：https://chromedriver.storage.googleapis.com/index.html?path=2.40/
         System.setProperty("webdriver.chrome.driver", "E:\\webdriver\\chromedriver.exe");
@@ -68,7 +72,7 @@ public class AutoTest {
     }
 
 
-    public static void pageLoop(WebDriver webDriver, List<String> urls) {
+    public void pageLoop(WebDriver webDriver, List<String> urls) {
 
         webDriver.findElements(By.cssSelector(".result")).forEach(x -> {
             String title = x.findElement(By.cssSelector(".c-title a")).getText();
@@ -97,7 +101,7 @@ public class AutoTest {
 
     }
 
-    public static int hashValue(char value[]) {
+    public int hashValue(char value[]) {
         int h = 0;
         if (h == 0 && value.length > 0) {
             char val[] = value;
