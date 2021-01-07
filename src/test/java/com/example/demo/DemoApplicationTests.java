@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.config.CachesEnum;
 import com.example.demo.persistence.entity.ArticleEntity;
 import com.example.demo.persistence.entity.ArticleEntityExample;
 import com.example.demo.persistence.entity.PersonEntity;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +39,9 @@ public class DemoApplicationTests {
 
     @Autowired
     ProcessService processService;
+
+    @Autowired
+    CacheManager cacheManager;
 
 
     @Test
@@ -172,5 +178,20 @@ public class DemoApplicationTests {
     public void logicalDeleteTest() {
         processService.processTransaction();
 //        int b = 1 / 0;
+    }
+
+    @Disabled
+    @Test
+    public void cacheTest() {
+        cacheManager.getCache(CachesEnum.KeywordCache.name()).put("a", null);
+        Cache.ValueWrapper valueWrapper = cacheManager.getCache(CachesEnum.KeywordCache.name()).get("a");
+        System.out.println("valueWrapper:" + valueWrapper.get());
+        cacheManager.getCache(CachesEnum.KeywordCache.name()).put("a", "123");
+        valueWrapper = cacheManager.getCache(CachesEnum.KeywordCache.name()).get("a");
+        System.out.println("valueWrapper:" + valueWrapper.get());
+        valueWrapper = cacheManager.getCache(CachesEnum.KeywordCache.name()).get("b");
+        System.out.println("valueWrapper:" + valueWrapper);
+        valueWrapper = cacheManager.getCache("CachesEnum.KeywordCache.name()").get("b");
+        System.out.println("valueWrapper:" + valueWrapper);
     }
 }
