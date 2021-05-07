@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.persistence.mapper.CustomMapper">
+    <resultMap id="mapResult" type="map">
+        <result property="date_created" column="date_created" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+        <result property="last_modified" column="last_modified" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+    </resultMap>
+    <select id="selectAll" resultMap="mapResult">
+        SELECT * FROM article_entity limit 11
+    </select>
+</mapper>

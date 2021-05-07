@@ -5,6 +5,7 @@ import com.example.demo.persistence.entity.ArticleEntity;
 import com.example.demo.persistence.entity.ArticleEntityExample;
 import com.example.demo.persistence.entity.PersonEntity;
 import com.example.demo.persistence.mapper.ArticleEntityMapper;
+import com.example.demo.persistence.mapper.CustomMapper;
 import com.example.demo.persistence.mapper.GenericMapper;
 import com.example.demo.persistence.mapper.PersonEntityMapper;
 import com.example.demo.service.ProcessService;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -42,6 +44,9 @@ public class DemoApplicationTests {
 
     @Autowired
     CacheManager cacheManager;
+
+    @Autowired
+    CustomMapper customMapper;
 
 
     @Test
@@ -71,6 +76,9 @@ public class DemoApplicationTests {
 
         System.out.println();
 
+        List<Map<String, Object>> mapList = customMapper.selectAll();
+        System.out.println(mapList);
+
     }
 
     @Test
@@ -92,7 +100,7 @@ public class DemoApplicationTests {
         paramsMapWithSql.put("gender", 2);
         paramsMapWithSql.put("sql", sql);
 
-        List<Map<String, Object>> list = genericMapper.queryForList(paramsMapWithSql);
+        List<LinkedHashMap<String, Object>> list = genericMapper.queryForList(paramsMapWithSql);
         list.forEach(System.out::println);
 
     }

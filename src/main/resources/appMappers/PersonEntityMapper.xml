@@ -434,7 +434,17 @@
     ${commaSeparatedColumns} 
     from person_entity
     <include refid="Example_Where_Clause" />
-    ${groupByClause} 
+    ${aggregateByClause} 
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="aggregateStatisticsByExample" parameterType="com.example.demo.persistence.entity.PersonEntityExample" resultType="java.util.HashMap">
+    select 
+    ${commaSeparatedColumns} 
+    from person_entity
+    <include refid="Example_Where_Clause" />
+    ${aggregateByClause} 
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>

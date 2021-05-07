@@ -27,7 +27,7 @@ public class InformationEntityExample {
     /**
      * aggregate query clause 语句, 注意未做防注入处理
      */
-    private String aggregateQueryClause;
+    private String aggregateByClause;
 
     public InformationEntityExample() {
         oredCriteria = new ArrayList<>();
@@ -196,14 +196,14 @@ public class InformationEntityExample {
     }
 
     /**
-     * @param aggregateQueryClause aggregate query 语句, 注意未做防注入处理
+     * @param aggregateByClause aggregate query 语句, 注意未做防注入处理
      */
-    public void setAggregateQueryClause(String aggregateQueryClause) {
-        this.aggregateQueryClause = aggregateQueryClause;
+    public void setAggregateByClause(String aggregateByClause) {
+        this.aggregateByClause = aggregateByClause;
     }
 
-    public String getAggregateQueryClause() {
-        return aggregateQueryClause;
+    public String getAggregateByClause() {
+        return aggregateByClause;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -242,7 +242,7 @@ public class InformationEntityExample {
 
         protected void addCriterion(String condition, Object value1, Object value2, String property) {
             if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
+                return;
             }
             criteria.add(new Criterion(condition, value1, value2));
         }

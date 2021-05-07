@@ -42,6 +42,11 @@ public interface InformationEntityMapper {
      */
     List<Map<String, Object>> aggregateQueryByExample(InformationEntityExample example);
 
+    /**
+     * 聚合统计,sum、count、max、min 等
+     */
+    Map<String, Object> aggregateStatisticsByExample(InformationEntityExample example);
+
     InformationEntity selectUniqueByExample(InformationEntityExample example);
 
     int logicalDeleteById(@Param("id") long id);

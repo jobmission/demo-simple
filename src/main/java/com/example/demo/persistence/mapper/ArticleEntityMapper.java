@@ -42,6 +42,11 @@ public interface ArticleEntityMapper {
      */
     List<Map<String, Object>> aggregateQueryByExample(ArticleEntityExample example);
 
+    /**
+     * 聚合统计,sum、count、max、min 等
+     */
+    Map<String, Object> aggregateStatisticsByExample(ArticleEntityExample example);
+
     ArticleEntity selectUniqueByExample(ArticleEntityExample example);
 
     int logicalDeleteById(@Param("id") long id);

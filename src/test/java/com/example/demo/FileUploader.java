@@ -3,16 +3,15 @@ package com.example.demo;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
-import io.minio.ObjectStat;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
 import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import io.minio.errors.MinioException;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -92,11 +91,14 @@ public class FileUploader {
             System.out.println("my-objectname is uploaded successfully");
 
             // Get information of an object.
-            ObjectStat objectStat = minioClient.statObject(
-                StatObjectArgs.builder().bucket("zhangsan").object("my-objectname").build());
-            System.out.println(objectStat.httpHeaders());
+            StatObjectResponse stat =
+                minioClient.statObject(
+                    StatObjectArgs.builder()
+                        .bucket("zhangsan")
+                        .object("my-objectname")
+                        .build());
+            System.out.println(stat);
 
-            System.out.println(URLDecoder.decode(objectStat.httpHeaders().get("x-amz-meta-author").toString(), "UTF-8"));
         } catch (MinioException e) {
             System.out.println("Error occurred: " + e);
         }

@@ -42,6 +42,11 @@ public interface SequenceEntityMapper {
      */
     List<Map<String, Object>> aggregateQueryByExample(SequenceEntityExample example);
 
+    /**
+     * 聚合统计,sum、count、max、min 等
+     */
+    Map<String, Object> aggregateStatisticsByExample(SequenceEntityExample example);
+
     SequenceEntity selectUniqueByExample(SequenceEntityExample example);
 
     int logicalDeleteById(@Param("id") long id);

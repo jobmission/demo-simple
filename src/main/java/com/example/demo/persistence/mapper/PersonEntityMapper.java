@@ -42,6 +42,11 @@ public interface PersonEntityMapper {
      */
     List<Map<String, Object>> aggregateQueryByExample(PersonEntityExample example);
 
+    /**
+     * 聚合统计,sum、count、max、min 等
+     */
+    Map<String, Object> aggregateStatisticsByExample(PersonEntityExample example);
+
     PersonEntity selectUniqueByExample(PersonEntityExample example);
 
     int logicalDeleteById(@Param("id") long id);
