@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+		<script type="text/javascript">  
+			//需要判断浏览器支不支持，可以去w3c进行查看
+			var source = new EventSource('http://localhost:9080/sse/subscribe');
+			source.onmessage = function (event) {
+			  console.info(event.data);
+			  text = document.getElementById('result').innerText;
+			  text += event.data+'\n';
+			  document.getElementById('result').innerText = text;
+			};
+			
+			<!-- 添加一个开启回调 -->
+			source.onopen = function (event) {
+				text = document.getElementById('result').innerText;
+				text += '开启: \n ';
+				console.log("----"+event);
+				document.getElementById('result').innerText = text;
+			};
+		</script>  
+	</head>
+<body>
+ 	<div>模拟随机数据</div>
+    <div id="result"></div>
+	<button id="try" onclick="">try me</button>
+	
+	<script>
+	</script>  
+</body>
+</html>

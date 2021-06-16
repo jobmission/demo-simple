@@ -155,7 +155,7 @@ public class TestController implements InitializingBean {
 
     @CrossOrigin("*")
     @ResponseBody
-    @RequestMapping(value = "/sse/push", produces = "text/event-stream;charset=UTF-8")
+    @RequestMapping(value = "/sse/random", produces = "text/event-stream;charset=UTF-8")
     public String ssePushTest() {
         log.info(LocalTime.now().toString());
         return "data:模拟动态数据" + Math.random() + "\n\n";

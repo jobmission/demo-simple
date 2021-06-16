@@ -6,6 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonPointer;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,6 +74,41 @@ public class JSONTest {
                 System.out.println("phone:" + jsonNode.asText());
             }
         }
+
+    }
+
+    @Disabled
+    @Test
+    public void jsonPointer2() throws JsonProcessingException, UnsupportedEncodingException {
+
+
+        String json = "{\n" +
+            "    \"firstName\": \"John\",\n" +
+            "    \"lastName\": \"Doe\",\n" +
+            "    \"address\": {\n" +
+            "      \"street\": \"21 2nd Street\",\n" +
+            "      \"city\": \"New York\",\n" +
+            "      \"postalCode\": \"10021-3100\",\n" +
+            "      \"coordinates\": {\n" +
+            "        \"latitude\": 40.7250387,\n" +
+            "        \"longitude\": -73.9932568\n" +
+            "      }\n" +
+            "    },\n" +
+            "    \"phone\":[\"139\",\"137\"],\n" +
+            "    \"grade\":[\n" +
+            "        {\"name\":\"math\",\"score\":99},\n" +
+            "        {\"name\":\"english\",\"score\":97}\n" +
+            "    ]\n" +
+            "  }";
+
+        JsonReader reader = Json.createReader(new ByteArrayInputStream(json.getBytes("UTF-8")));
+
+        JsonArray arrays = reader.readArray();
+
+        JsonPointer p = Json.createPointer("/address/city");
+        JsonValue name = p.getValue(arrays);
+
+        System.out.println("json value ::" + name);
 
     }
 }
