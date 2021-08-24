@@ -1,11 +1,17 @@
 package com.example.demo;
 
+import com.example.demo.persistence.entity.ArticleEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SimpleTest {
 
@@ -84,7 +90,6 @@ public class SimpleTest {
         return str;
     }
 
-
     @Disabled
     @Test
     public void name() {
@@ -95,6 +100,39 @@ public class SimpleTest {
 
         System.out.println(p1.matcher(sql).matches());
         System.out.println(p2.matcher(sql).matches());
+    }
+
+
+    @Disabled
+    @Test
+    public void lambdaTest() {
+
+        ArticleEntity entity1 = new ArticleEntity();
+        entity1.setAuthor("zhangsan");
+        entity1.setTitle("下大雨了");
+        entity1.setTags("天气");
+        ArticleEntity entity2 = new ArticleEntity();
+        entity2.setAuthor("zhangsan");
+        entity2.setTitle("下大雨了");
+        entity2.setTags("天气预报");
+
+        ArticleEntity entity3 = new ArticleEntity();
+        entity3.setAuthor("lisi");
+        entity3.setTitle("下大雨了");
+        entity3.setTags("天气报告");
+
+        List<ArticleEntity> entityList = new ArrayList<>();
+        entityList.add(entity1);
+        entityList.add(entity2);
+        entityList.add(entity3);
+
+        TreeMap<String, List<ArticleEntity>> treeMap = entityList.stream().collect(Collectors.groupingBy(this::functionA, TreeMap::new, Collectors.toList()));
+
+        System.out.println(treeMap);
+    }
+
+    String functionA(ArticleEntity articleEntity) {
+        return StringUtils.substring(articleEntity.getTags(), 0, 3);
     }
 
 }

@@ -290,6 +290,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="batchInsert" parameterType="java.util.List">
+    <if test="list != null and list.size() > 0">
     insert into sequence_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,
@@ -316,6 +317,10 @@
         #{item.lastModified,jdbcType=TIMESTAMP},
       </trim>
     </foreach>
+    </if>
+    <if test="list == null or list.size() == 0">
+      select 0
+    </if>
   </insert>
   <select id="selectColumnsByExample" parameterType="com.example.demo.persistence.entity.SequenceEntityExample" resultMap="BaseResultMap">
     select
@@ -379,4 +384,11 @@
       #{item}
     </foreach>
   </update>
+  <delete id="deleteByIds">
+    delete from sequence_entity
+    where id in
+    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </delete>
 </mapper>

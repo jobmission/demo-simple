@@ -52,4 +52,6 @@ public interface ArticleEntityMapper {
     int logicalDeleteById(@Param("id") long id);
 
     int logicalDeleteByIds(@Param("ids") long[] ids);
+
+    int deleteByIds(@Param("ids") long[] ids);
 }
