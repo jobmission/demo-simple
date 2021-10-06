@@ -11,6 +11,8 @@ import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
 import org.apache.iotdb.tsfile.write.record.Tablet;
 import org.apache.iotdb.tsfile.write.schema.MeasurementSchema;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +33,9 @@ public class SessionExample {
     private static final String ROOT_SG1_D1 = "root.sg1.d1";
     private static final String LOCAL_HOST = "127.0.0.1";
 
-    public static void main(String[] args)
+    @Test
+    @Disabled
+    public void testDB()
         throws IoTDBConnectionException, StatementExecutionException {
         session = new Session(LOCAL_HOST, 6667, "root", "root");
         session.open(false);
@@ -609,7 +613,7 @@ public class SessionExample {
 
     private static void setTimeout() throws StatementExecutionException {
         Session tempSession = new Session(LOCAL_HOST, 6667, "root", "root", 10000, 20000);
-        tempSession.setTimeout(60000);
+        tempSession.setQueryTimeout(60000);
     }
 
 }
