@@ -20,13 +20,6 @@ import static java.lang.System.err;
 import static java.lang.System.exit;
 import static java.lang.System.out;
 
-/**
- * The command line interface (CLI) for consuming StarGazer 2020 license keys.
- * <p>
- * This class is immutable and hence trivially thread-safe.
- *
- * @author Christian Schlichtherle
- */
 public enum Main {
 
     USAGE {

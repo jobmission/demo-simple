@@ -19,17 +19,6 @@ import global.namespace.truelicense.v4.V4;
 
 import javax.security.auth.x500.X500Principal;
 
-/**
- * The enumeration of the vendor license managers for StarGazer 2020 license keys.
- * The managers are named like each configured edition and ordered from
- * superset to subset.
- * Each manager is configured with the algorithms and parameters for generating
- * license keys for the respective edition.
- * <p>
- * This class is immutable and hence trivially thread-safe.
- *
- * @author Christian Schlichtherle
- */
 public enum GenLicenseManager implements VendorLicenseManager {
 
     enterprise {
@@ -73,7 +62,7 @@ public enum GenLicenseManager implements VendorLicenseManager {
     private static final String KEY_STORE_FILE = "private.ks";
 
     @Obfuscate
-    private static final String SUBJECT = "StarGazer 2020";
+    private static final String SUBJECT = "StarGazer 2021";
 
     private static final LicenseManagementContext _managementContext = V4
         .builder()

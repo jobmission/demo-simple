@@ -17,17 +17,6 @@ import global.namespace.truelicense.obfuscate.Obfuscate;
 import global.namespace.truelicense.obfuscate.ObfuscatedString;
 import global.namespace.truelicense.v4.V4;
 
-/**
- * The enumeration of the consumer license managers for StarGazer 2020 license keys.
- * The managers are named like each configured edition and ordered from
- * superset to subset, including an optional free trial period (FTP).
- * Each manager is configured with the algorithms and parameters for installing,
- * loading, verifying and uninstalling license keys for the respective edition.
- * <p>
- * This class is immutable and hence trivially thread-safe.
- *
- * @author Christian Schlichtherle
- */
 public enum MgrLicenseManager implements ConsumerLicenseManager {
 
     enterprise {
@@ -84,7 +73,7 @@ public enum MgrLicenseManager implements ConsumerLicenseManager {
     private static final String KEY_STORE_FILE = "public.ks";
 
     @Obfuscate
-    private static final String SUBJECT = "StarGazer 2020";
+    private static final String SUBJECT = "StarGazer 2021";
 
     private static final LicenseManagementContext _managementContext = V4
         .builder()

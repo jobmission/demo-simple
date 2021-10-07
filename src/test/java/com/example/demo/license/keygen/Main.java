@@ -15,13 +15,6 @@ import static global.namespace.fun.io.bios.BIOS.*;
 
 import static java.lang.System.*;
 
-/**
- * The command line interface (CLI) for vending StarGazer 2020 license keys.
- * <p>
- * This class is immutable and hence trivially thread-safe.
- *
- * @author Christian Schlichtherle
- */
 public enum Main {
 
     USAGE {

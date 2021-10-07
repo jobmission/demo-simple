@@ -212,6 +212,8 @@
                         <nonFilteredFileExtension>py</nonFilteredFileExtension>
                         <nonFilteredFileExtension>jks</nonFilteredFileExtension>
                         <nonFilteredFileExtension>ks</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>store</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>keystore</nonFilteredFileExtension>
                     </nonFilteredFileExtensions>
                     <encoding>UTF-8</encoding>
                     <propertiesEncoding>UTF-8</propertiesEncoding>
