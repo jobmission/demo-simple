@@ -8,6 +8,8 @@ import java.util.prefs.Preferences;
 /**
  * 在Windows平台中，对应注册表，Preferences.userRoot()用户参数项在注册表中的根节点是 HKEY_CURRENT_USER/Software/JavaSoft/Prefs
  * 在Windows平台中，对应注册表，Preferences.systemRoot()用户参数项在注册表中的根节点是 HKEY_LOCAL_MACHINE/SOFTWARE/JavaSoft/Prefs
+ * 在Linux平台中，对应注册表，Preferences.userRoot()用户参数项在${user.home}/.java/.userPrefs
+ * 在Linux平台中，对应注册表，Preferences.systemRoot()用户参数项在/etc/.java
  * 我们指定的节点路径是位于这些根节点之下
  * 如，HKEY_CURRENT_USER\Software\JavaSoft\Prefs\com\example\demo\license\keymgr
  */

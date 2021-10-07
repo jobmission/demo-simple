@@ -8,6 +8,7 @@ import global.namespace.truelicense.api.ConsumerLicenseManager;
 import global.namespace.truelicense.api.License;
 import global.namespace.truelicense.api.LicenseManagementException;
 import global.namespace.truelicense.api.VendorLicenseManager;
+import global.namespace.truelicense.obfuscate.ObfuscatedString;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,16 @@ import static global.namespace.fun.io.bios.BIOS.file;
  * https://github.com/christian-schlichtherle/truelicense
  */
 public class LicenseTest {
+
+    @Test
+    @Disabled
+    public void obfuscatePassword() {
+        String result = ObfuscatedString.obfuscate("unsafe2020");
+        System.out.format("password:  %s\n", result);
+
+        String source = new global.namespace.truelicense.obfuscate.ObfuscatedString(new long[]{0x5c6af2e0b9351022L, 0x273ff88a2941f7a6L, 0xea1941323787a0bL}).toString();
+        System.out.println("source:" + source);
+    }
 
     @Test
     @Disabled
