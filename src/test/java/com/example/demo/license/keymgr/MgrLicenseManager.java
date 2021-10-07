@@ -17,8 +17,6 @@ import global.namespace.truelicense.obfuscate.Obfuscate;
 import global.namespace.truelicense.obfuscate.ObfuscatedString;
 import global.namespace.truelicense.v4.V4;
 
-import static global.namespace.fun.io.bios.BIOS.file;
-
 /**
  * The enumeration of the consumer license managers for StarGazer 2020 license keys.
  * The managers are named like each configured edition and ordered from
@@ -42,7 +40,7 @@ public enum MgrLicenseManager implements ConsumerLicenseManager {
                 .up()
                 .authentication()
                 .alias(name())
-                .loadFrom(file("F:\\license\\public.ks"))
+                .loadFromResource(KEY_STORE_FILE)
                 .storeProtection(protection(new long[]{0x418926a8d8387b2fL, 0x9a4b47c1ed797e33L, 0x1fd0cf9c3579b3a4L}) /* => "unsafe2020" */)
                 .up()
                 .storeInUserPreferences(Main.class) // must be a non-obfuscated class!
@@ -91,6 +89,7 @@ public enum MgrLicenseManager implements ConsumerLicenseManager {
     private static final LicenseManagementContext _managementContext = V4
         .builder()
         .subject(SUBJECT)
+        .validation(new CustomLicenseValidation())
         .build();
 
     private volatile ConsumerLicenseManager _manager;
@@ -100,7 +99,7 @@ public enum MgrLicenseManager implements ConsumerLicenseManager {
      * chain-of-responsibility, which is {@link #ftp}.
      * <p>
      * By default, this manager should be used to
-     * {@linkplain #install() install}, {@linkplain #load() load} and
+     * {@linkplain #install(Source source) install}, {@linkplain #load() load} and
      * {@linkplain #uninstall() uninstall} license keys.
      */
     public static MgrLicenseManager get() {

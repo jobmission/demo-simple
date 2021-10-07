@@ -11,6 +11,9 @@ import global.namespace.truelicense.api.VendorLicenseManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static global.namespace.fun.io.bios.BIOS.file;
 
 public class LicenseTest {
@@ -20,8 +23,11 @@ public class LicenseTest {
         VendorLicenseManager manager = GenLicenseManager.enterprise;
         License input = manager.context().licenseFactory().license();
         Sink sink = file("F:\\license\\license.lic");
+        Map<String, String> extraData = new HashMap<>();
+        extraData.put("mac", "1:2:3:4:5:6");
+        extraData.put("ip", "192.168.1.1");
+        input.setExtra(extraData);
         License output = manager.generateKeyFrom(input).saveTo(sink).license();
-
     }
 
     @Test
@@ -33,7 +39,6 @@ public class LicenseTest {
         manager.install(source);
         License bean = manager.load();
         System.out.println("===" + bean.getSubject());
-
     }
 
     @Test
@@ -41,5 +46,12 @@ public class LicenseTest {
     void verifyLicense() throws LicenseManagementException {
         ConsumerLicenseManager manager = MgrLicenseManager.get();
         manager.verify();
+    }
+
+    @Test
+    @Disabled
+    void uninstallLicense() throws LicenseManagementException {
+        ConsumerLicenseManager manager = MgrLicenseManager.get();
+        manager.uninstall();
     }
 }
