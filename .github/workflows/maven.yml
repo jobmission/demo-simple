@@ -22,11 +22,14 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
-    - name: start mysql
-      run: sudo systemctl start mysql.service
+    - name: Shutdown Ubuntu MySQL
+      run: sudo service mysql stop
+    - name: Set up MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql database: 'demo_01'
+        mysql root password: 'root'
+        mysql user: 'user_dev'
+        mysql password: 'pass_dev'
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests=true
-      env:
-        spring.datasource.url:jdbc: mysql://localhost:3306/demo_01?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-        spring.datasource.username: root
-        spring.datasource.password: root
