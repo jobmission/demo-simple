@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RPNTest {
 
@@ -63,12 +65,20 @@ public class RPNTest {
         Assert.isTrue(calculator.RPNCalculate(res5) == 40, "计算错误");
         System.out.println();
 
-//        String str6 = "A=2+f(j,j+1,j+3)^8";
-//        List<String> expr6 = RPNCalculator.splitLine(str6);
-//        List<String> res6 = calculator.convertToRPN(expr6);
-//        System.out.println("Input: " + str6);
-//        System.out.println("Res: " + calculator.listToString(res6));
-//        System.out.println();
+    }
+
+    @Test
+    @Disabled
+    public void patternTest() {
+        String line = "abcdef|123+abcd|123456+3+min[2,3,14,15]+(3+(5+6))";
+        String patternExpression = "([a-z]{4}\\|+\\d{6})|-?[0-9.]+|[A-Za-z]+|[-+*/()\\[\\]^=,]";
+        Pattern pattern = Pattern.compile(patternExpression);
+        Matcher matcher = pattern.matcher(line);
+        System.out.println(line);
+        while (matcher.find()) {
+            System.out.print(matcher.group() + "  ");
+        }
+        System.out.println();
 
     }
 }

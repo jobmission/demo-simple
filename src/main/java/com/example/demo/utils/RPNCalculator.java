@@ -41,6 +41,7 @@ public class RPNCalculator {
         precedence.put("(", 0);
     }
 
+    //todo support variables
     public double RPNCalculate(List<String> expressions) throws EmptyStackException {
         Stack<Double> stack = new Stack<>();
         double op1;//operand
@@ -87,7 +88,7 @@ public class RPNCalculator {
                         break;
                     }
                     default: {
-                        log.debug(exp + " not +-*/");
+                        log.debug(exp + " not +-*/, maybe an expression or a variable.");
                     }
                 }
             } else if (exp.length() == 3) {
@@ -172,7 +173,7 @@ public class RPNCalculator {
                         break;
                     }
                     default: {
-                        log.debug(exp + " not exp");
+                        log.debug(exp + " not expression, maybe a variable.");
                     }
                 }
             }
