@@ -32,4 +32,4 @@ jobs:
         mysql user: 'user_dev'
         mysql password: 'pass_dev'
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -DskipTests=true
+      run: mvn -B package --file pom.xml
