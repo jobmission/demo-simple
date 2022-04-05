@@ -15,30 +15,30 @@ import java.util.regex.Pattern;
 
 public class RPNCalculator {
 
-    private static final Logger log = LoggerFactory.getLogger(RPNCalculator.class);
+    private Logger log = LoggerFactory.getLogger(RPNCalculator.class);
     private static final String EXPRESSION = "-?[0-9.]+|[A-Za-z]+|[-+*/()\\[\\]^=,]";
-    private static final Map<String, Integer> precedence = new HashMap<>();
+    private static final Map<String, Integer> PRECEDENCE = new HashMap<>();
 
     static {
-        precedence.put("sin", 5);
-        precedence.put("cos", 5);
-        precedence.put("tan", 5);
-        precedence.put("ctg", 5);
-        precedence.put("max", 5);
-        precedence.put("min", 5);
-        precedence.put("avg", 5);
-        precedence.put("sum", 5);
-        precedence.put("^", 4);
-        precedence.put("/", 3);
-        precedence.put("*", 3);
-        precedence.put("-", 2);
-        precedence.put("+", 2);
-        precedence.put(",", 1);
-        precedence.put("=", 1);
-        precedence.put("]", 1);
-        precedence.put(")", 1);
-        precedence.put("[", 0);
-        precedence.put("(", 0);
+        PRECEDENCE.put("sin", 5);
+        PRECEDENCE.put("cos", 5);
+        PRECEDENCE.put("tan", 5);
+        PRECEDENCE.put("ctg", 5);
+        PRECEDENCE.put("max", 5);
+        PRECEDENCE.put("min", 5);
+        PRECEDENCE.put("avg", 5);
+        PRECEDENCE.put("sum", 5);
+        PRECEDENCE.put("^", 4);
+        PRECEDENCE.put("/", 3);
+        PRECEDENCE.put("*", 3);
+        PRECEDENCE.put("-", 2);
+        PRECEDENCE.put("+", 2);
+        PRECEDENCE.put(",", 1);
+        PRECEDENCE.put("=", 1);
+        PRECEDENCE.put("]", 1);
+        PRECEDENCE.put(")", 1);
+        PRECEDENCE.put("[", 0);
+        PRECEDENCE.put("(", 0);
     }
 
     //todo support variables
@@ -191,8 +191,9 @@ public class RPNCalculator {
                 stack.push(symbol);
                 continue;
             } else if (")".equals(symbol)) {
-                while (!"(".equals(stack.peek()))
+                while (!"(".equals(stack.peek())) {
                     res.add(stack.pop());
+                }
                 stack.pop();
                 continue;
             } else if ("[".equals(symbol)) {
@@ -217,8 +218,8 @@ public class RPNCalculator {
                 String lastStatement = stack.pop();
                 counter = Integer.parseInt(lastStatement);
                 continue;
-            } else if (precedence.containsKey(symbol)) {
-                while (!stack.empty() && precedence.get(symbol) <= precedence.get(stack.peek())) {
+            } else if (PRECEDENCE.containsKey(symbol)) {
+                while (!stack.empty() && PRECEDENCE.get(symbol) <= PRECEDENCE.get(stack.peek())) {
                     res.add(stack.pop());
                 }
                 stack.push(symbol);

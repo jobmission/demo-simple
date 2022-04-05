@@ -20,7 +20,7 @@ public class IdWorker {
     }
 
     //开始该类生成ID的时间截，1498959703000l (2017-07-02 09:41:43) 这一时刻到当前时间所经过的毫秒数，占 41 位（还有一位是符号位，永远为 0）。
-    private final long startTime = 1498959703000l;
+    private final long startTime = 1498959703000L;
 
     //机器id所占的位数
     private long workerIdBits = 5L;
