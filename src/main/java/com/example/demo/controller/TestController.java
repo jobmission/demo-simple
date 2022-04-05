@@ -121,7 +121,7 @@ public class TestController implements InitializingBean {
 
     @ResponseBody
     @RequestMapping("/oauth/check_token")
-    public Map<String, Object> check_token(HttpServletRequest request) throws JsonProcessingException {
+    public Map<String, Object> checkToken(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String, Object> result = new HashMap<>();
         result.put("threadId", Thread.currentThread().getId());

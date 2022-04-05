@@ -8,7 +8,8 @@ import io.minio.PutObjectArgs;
 import io.minio.StatObjectArgs;
 import io.minio.StatObjectResponse;
 import io.minio.errors.MinioException;
-import org.xmlpull.v1.XmlPullParserException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,8 +19,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileUploader {
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeyException, XmlPullParserException {
+public class MinioTest {
+
+    @Disabled
+    @Test
+    public void testUpload() throws NoSuchAlgorithmException, IOException, InvalidKeyException {
         try {
             // Create a minioClient with the MinIO Server name, Port, Access key and Secret key.
             MinioClient minioClient = MinioClient.builder().endpoint("https://play.min.io").credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG").build();
@@ -81,7 +85,7 @@ public class FileUploader {
             // from the input stream.
             ObjectWriteResponse objectWriteResponse = minioClient.putObject(
                 PutObjectArgs.builder().bucket("zhangsan").object("my-objectname").stream(
-                    bais, bais.available(), -1)
+                        bais, bais.available(), -1)
                     .headers(headers)
                     .userMetadata(userMetadata)
                     .build());
@@ -100,7 +104,7 @@ public class FileUploader {
             System.out.println(stat);
 
         } catch (MinioException e) {
-            System.out.println("Error occurred: " + e);
+            e.printStackTrace();
         }
     }
 }
