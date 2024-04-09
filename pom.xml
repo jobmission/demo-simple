@@ -245,6 +245,25 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <propertyFileWillOverride>true</propertyFileWillOverride>
+                    <outputChangeLogFile>${basedir}/temp-changelog.xml</outputChangeLogFile>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/demo_01?allowPublicKeyRetrieval=true</url>
+                    <username>user_dev</username>
+                    <password>pass_dev</password>
+                    <outputFileEncoding>UTF-8</outputFileEncoding>
+                    <verbose>true</verbose>
+                    <overwriteOutputFile>true</overwriteOutputFile>
+                    <diffTypes>tables,views,columns,indexs,foreignkeys,primarykeys,uniqueconstraints,sequences
+                    </diffTypes>
+                    <changeSetAuthor>wzhang</changeSetAuthor>
+                </configuration>
+            </plugin>
+
             <!-- mvn versions:display-dependency-updates -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
