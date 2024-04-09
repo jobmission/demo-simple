@@ -1,24 +1,18 @@
 package com.example.demo;
 
-import com.sun.mail.pop3.POP3Folder;
-import com.sun.mail.pop3.POP3Store;
-import com.sun.mail.util.BASE64DecoderStream;
-import com.sun.mail.util.MailSSLSocketFactory;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimeUtility;
+import jakarta.mail.search.FlagTerm;
+import org.eclipse.angus.mail.pop3.POP3Folder;
+import org.eclipse.angus.mail.pop3.POP3Store;
+import org.eclipse.angus.mail.util.BASE64DecoderStream;
+import org.eclipse.angus.mail.util.MailSSLSocketFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.BodyPart;
-import javax.mail.FetchProfile;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
-import javax.mail.search.FlagTerm;
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Properties;

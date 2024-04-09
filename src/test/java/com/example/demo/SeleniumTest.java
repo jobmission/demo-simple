@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +28,7 @@ public class SeleniumTest {
 //        webDriver.manage().window().maximize();
         webDriver.manage().deleteAllCookies();
         // 与浏览器同步非常重要，必须等待浏览器加载完毕
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         //打开目标地址
         webDriver.get("https://www.baidu.com");

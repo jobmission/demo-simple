@@ -1,11 +1,10 @@
 package com.example.demo;
 
+import org.apache.iotdb.isession.SessionDataSet;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.rpc.TSStatusCode;
 import org.apache.iotdb.session.Session;
-import org.apache.iotdb.session.SessionDataSet;
-import org.apache.iotdb.session.SessionDataSet.DataIterator;
 import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
@@ -46,7 +45,7 @@ public class SessionExample {
         try {
             session.setStorageGroup("root.sg1");
         } catch (StatementExecutionException e) {
-            if (e.getStatusCode() != TSStatusCode.PATH_ALREADY_EXIST_ERROR.getStatusCode()) {
+            if (e.getStatusCode() != TSStatusCode.PATH_ALREADY_EXIST.getStatusCode()) {
                 throw e;
             }
         }
@@ -566,7 +565,7 @@ public class SessionExample {
     private static void queryByIterator()
         throws IoTDBConnectionException, StatementExecutionException {
         SessionDataSet dataSet = session.executeQueryStatement("select * from root.sg1.d1");
-        DataIterator iterator = dataSet.iterator();
+        SessionDataSet.DataIterator iterator = dataSet.iterator();
         System.out.println(dataSet.getColumnNames());
         dataSet.setFetchSize(1024); // default is 10000
         while (iterator.next()) {

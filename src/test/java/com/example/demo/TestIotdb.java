@@ -1,7 +1,7 @@
 package com.example.demo;
 
+import org.apache.iotdb.isession.SessionDataSet;
 import org.apache.iotdb.session.Session;
-import org.apache.iotdb.session.SessionDataSet;
 import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;

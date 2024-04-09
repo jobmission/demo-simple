@@ -3,14 +3,10 @@ package com.example.demo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.json.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonPointer;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
