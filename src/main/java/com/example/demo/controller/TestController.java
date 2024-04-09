@@ -7,6 +7,8 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.utils.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.time.*;
 import java.util.Enumeration;

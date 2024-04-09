@@ -27,7 +27,7 @@ spring:
             pool:
                 size: 10
     datasource:
-        url: jdbc:mysql://localhost:3306/demo_01?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://localhost:3306/demo_01?createDatabaseIfNotExist=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
         username: user_dev
         password: pass_dev
         driver-class-name: com.mysql.cj.jdbc.Driver
