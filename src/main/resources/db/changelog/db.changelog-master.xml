@@ -4,6 +4,14 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+    <property name="caseInsensitive255" value="varchar(255) collate collation_case_insensitive" dbms="postgresql"/>
+    <property name="caseInsensitive255" value="varchar(255)" dbms="mysql,sqlite"/>
+
+    <changeSet author="wzhang" id="pre_do_something" dbms="postgresql">
+        <sql splitStatements="true" stripComments="true">
+            create collation if not exists collation_case_insensitive (provider = icu, locale = 'und-u-ks-level2', deterministic = false);
+        </sql>
+    </changeSet>
     <changeSet author="wzhang" id="create_table_article_entity">
         <createTable remarks="文章表" tableName="article_entity">
             <column autoIncrement="true" name="id" type="INTEGER">
@@ -12,7 +20,7 @@
             <column name="author" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="title" type="VARCHAR(255)">
+            <column name="title" type="${caseInsensitive255}">
                 <constraints nullable="false"/>
             </column>
             <column name="tags" type="VARCHAR(255)"/>
