@@ -25,16 +25,18 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="date_created" type="datetime"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP" name="last_modified" type="datetime"/>
         </createTable>
-        <addUniqueConstraint columnNames="author,title" constraintName="uc_ae_author_title"
-                             tableName="article_entity"/>
+        <createIndex indexName="index_ae_author_title" tableName="article_entity" unique="true">
+            <column name="author"/>
+            <column name="title"/>
+        </createIndex>
     </changeSet>
-    <changeSet author="wzhang" id="create_table_article_demo_user">
-        <createTable remarks="用户表" tableName="demo_user">
+    <changeSet author="wzhang" id="create_table_user_entity">
+        <createTable remarks="用户表" tableName="user_entity">
             <column autoIncrement="true" name="id" remarks="用户ID,主键" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_demo_user"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_entity"/>
             </column>
             <column name="username" remarks="用户名" type="VARCHAR(100)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="uc_du_username"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="uc_ue_username"/>
             </column>
         </createTable>
     </changeSet>
