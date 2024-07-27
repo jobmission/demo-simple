@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class InformationEntity implements Serializable {
-    private Long id;
+    private Integer id;
 
     private String title;
 
@@ -28,11 +28,11 @@ public class InformationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

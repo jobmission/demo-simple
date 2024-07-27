@@ -13,23 +13,23 @@ public interface PersonEntityMapper {
 
     int deleteByExample(PersonEntityExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
-    int insert(PersonEntity record);
+    int insert(PersonEntity row);
 
-    int insertSelective(PersonEntity record);
+    int insertSelective(PersonEntity row);
 
     List<PersonEntity> selectByExample(PersonEntityExample example);
 
-    PersonEntity selectByPrimaryKey(Long id);
+    PersonEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") PersonEntity record, @Param("example") PersonEntityExample example);
+    int updateByExampleSelective(@Param("row") PersonEntity row, @Param("example") PersonEntityExample example);
 
-    int updateByExample(@Param("record") PersonEntity record, @Param("example") PersonEntityExample example);
+    int updateByExample(@Param("row") PersonEntity row, @Param("example") PersonEntityExample example);
 
-    int updateByPrimaryKeySelective(PersonEntity record);
+    int updateByPrimaryKeySelective(PersonEntity row);
 
-    int updateByPrimaryKey(PersonEntity record);
+    int updateByPrimaryKey(PersonEntity row);
 
     int batchInsert(List<PersonEntity> list);
 

@@ -1,5 +1,5 @@
 server:
-    port: 9080
+    port: 30880
     servlet:
         context-path: /
 management:
@@ -60,7 +60,7 @@ mybatis:
     mapper-locations: classpath:appMappers/*.xml
 
 pagehelper:
-    helper-dialect: mysql
+    #helper-dialect: mysql
     reasonable: false
     supportMethodsArguments: true
     params: count=countSql

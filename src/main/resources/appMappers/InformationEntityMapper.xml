@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.persistence.mapper.InformationEntityMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.persistence.entity.InformationEntity">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -108,15 +108,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from information_entity
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from information_entity
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.demo.persistence.entity.InformationEntityExample">
     delete from information_entity
@@ -124,10 +124,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.demo.persistence.entity.InformationEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.InformationEntity" useGeneratedKeys="true">
     insert into information_entity (title, summary, url, 
       url_hash_value, version, record_status, 
       sort_priority, remark, date_created, 
@@ -137,10 +134,7 @@
       #{sortPriority,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, 
       #{lastModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.persistence.entity.InformationEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.InformationEntity" useGeneratedKeys="true">
     insert into information_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="title != null">
@@ -216,58 +210,58 @@
   <update id="updateByExampleSelective" parameterType="map">
     update information_entity
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="row.title != null">
+        title = #{row.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.summary != null">
-        summary = #{record.summary,jdbcType=VARCHAR},
+      <if test="row.summary != null">
+        summary = #{row.summary,jdbcType=VARCHAR},
       </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
+      <if test="row.url != null">
+        url = #{row.url,jdbcType=VARCHAR},
       </if>
-      <if test="record.urlHashValue != null">
-        url_hash_value = #{record.urlHashValue,jdbcType=INTEGER},
+      <if test="row.urlHashValue != null">
+        url_hash_value = #{row.urlHashValue,jdbcType=INTEGER},
       </if>
-      <if test="record.version != null">
-        version = #{record.version,jdbcType=INTEGER},
+      <if test="row.version != null">
+        version = #{row.version,jdbcType=INTEGER},
       </if>
-      <if test="record.recordStatus != null">
-        record_status = #{record.recordStatus,jdbcType=INTEGER},
+      <if test="row.recordStatus != null">
+        record_status = #{row.recordStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.sortPriority != null">
-        sort_priority = #{record.sortPriority,jdbcType=INTEGER},
+      <if test="row.sortPriority != null">
+        sort_priority = #{row.sortPriority,jdbcType=INTEGER},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="row.remark != null">
+        remark = #{row.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.dateCreated != null">
-        date_created = #{record.dateCreated,jdbcType=TIMESTAMP},
+      <if test="row.dateCreated != null">
+        date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.lastModified != null">
-        last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
+      <if test="row.lastModified != null">
+        last_modified = #{row.lastModified,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update information_entity
-    set id = #{record.id,jdbcType=BIGINT},
-      title = #{record.title,jdbcType=VARCHAR},
-      summary = #{record.summary,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      url_hash_value = #{record.urlHashValue,jdbcType=INTEGER},
-      version = #{record.version,jdbcType=INTEGER},
-      record_status = #{record.recordStatus,jdbcType=INTEGER},
-      sort_priority = #{record.sortPriority,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      date_created = #{record.dateCreated,jdbcType=TIMESTAMP},
-      last_modified = #{record.lastModified,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=INTEGER},
+      title = #{row.title,jdbcType=VARCHAR},
+      summary = #{row.summary,jdbcType=VARCHAR},
+      url = #{row.url,jdbcType=VARCHAR},
+      url_hash_value = #{row.urlHashValue,jdbcType=INTEGER},
+      version = #{row.version,jdbcType=INTEGER},
+      record_status = #{row.recordStatus,jdbcType=INTEGER},
+      sort_priority = #{row.sortPriority,jdbcType=INTEGER},
+      remark = #{row.remark,jdbcType=VARCHAR},
+      date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
+      last_modified = #{row.lastModified,jdbcType=TIMESTAMP}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
@@ -305,7 +299,7 @@
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.persistence.entity.InformationEntity">
     update information_entity
@@ -319,7 +313,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       date_created = #{dateCreated,jdbcType=TIMESTAMP},
       last_modified = #{lastModified,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert" parameterType="java.util.List">
     <if test="list != null and list.size() > 0">
@@ -340,7 +334,7 @@
      values 
     <foreach collection="list" index="index" item="item" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
-        #{item.id,jdbcType=BIGINT},
+        #{item.id,jdbcType=INTEGER},
         #{item.title,jdbcType=VARCHAR},
         #{item.summary,jdbcType=VARCHAR},
         #{item.url,jdbcType=VARCHAR},

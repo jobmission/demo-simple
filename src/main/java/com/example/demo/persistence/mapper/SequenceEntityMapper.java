@@ -13,23 +13,23 @@ public interface SequenceEntityMapper {
 
     int deleteByExample(SequenceEntityExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
-    int insert(SequenceEntity record);
+    int insert(SequenceEntity row);
 
-    int insertSelective(SequenceEntity record);
+    int insertSelective(SequenceEntity row);
 
     List<SequenceEntity> selectByExample(SequenceEntityExample example);
 
-    SequenceEntity selectByPrimaryKey(Long id);
+    SequenceEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SequenceEntity record, @Param("example") SequenceEntityExample example);
+    int updateByExampleSelective(@Param("row") SequenceEntity row, @Param("example") SequenceEntityExample example);
 
-    int updateByExample(@Param("record") SequenceEntity record, @Param("example") SequenceEntityExample example);
+    int updateByExample(@Param("row") SequenceEntity row, @Param("example") SequenceEntityExample example);
 
-    int updateByPrimaryKeySelective(SequenceEntity record);
+    int updateByPrimaryKeySelective(SequenceEntity row);
 
-    int updateByPrimaryKey(SequenceEntity record);
+    int updateByPrimaryKey(SequenceEntity row);
 
     int batchInsert(List<SequenceEntity> list);
 

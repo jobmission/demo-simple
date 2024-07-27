@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.persistence.mapper.PersonEntityMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.persistence.entity.PersonEntity">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -111,15 +111,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from person_entity
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from person_entity
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.demo.persistence.entity.PersonEntityExample">
     delete from person_entity
@@ -127,10 +127,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.demo.persistence.entity.PersonEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.PersonEntity" useGeneratedKeys="true">
     insert into person_entity (name, gender, address, 
       phone, email, record_status, 
       remarks, sort_priority, version, 
@@ -142,10 +139,7 @@
       #{age,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{dateCreated,jdbcType=TIMESTAMP}, 
       #{lastModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.persistence.entity.PersonEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.PersonEntity" useGeneratedKeys="true">
     insert into person_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -239,70 +233,70 @@
   <update id="updateByExampleSelective" parameterType="map">
     update person_entity
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="row.name != null">
+        name = #{row.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.gender != null">
-        gender = #{record.gender,jdbcType=VARCHAR},
+      <if test="row.gender != null">
+        gender = #{row.gender,jdbcType=VARCHAR},
       </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=VARCHAR},
+      <if test="row.address != null">
+        address = #{row.address,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="row.phone != null">
+        phone = #{row.phone,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="row.email != null">
+        email = #{row.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.recordStatus != null">
-        record_status = #{record.recordStatus,jdbcType=INTEGER},
+      <if test="row.recordStatus != null">
+        record_status = #{row.recordStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.remarks != null">
-        remarks = #{record.remarks,jdbcType=VARCHAR},
+      <if test="row.remarks != null">
+        remarks = #{row.remarks,jdbcType=VARCHAR},
       </if>
-      <if test="record.sortPriority != null">
-        sort_priority = #{record.sortPriority,jdbcType=INTEGER},
+      <if test="row.sortPriority != null">
+        sort_priority = #{row.sortPriority,jdbcType=INTEGER},
       </if>
-      <if test="record.version != null">
-        version = #{record.version,jdbcType=INTEGER},
+      <if test="row.version != null">
+        version = #{row.version,jdbcType=INTEGER},
       </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
+      <if test="row.age != null">
+        age = #{row.age,jdbcType=INTEGER},
       </if>
-      <if test="record.birthday != null">
-        birthday = #{record.birthday,jdbcType=DATE},
+      <if test="row.birthday != null">
+        birthday = #{row.birthday,jdbcType=DATE},
       </if>
-      <if test="record.dateCreated != null">
-        date_created = #{record.dateCreated,jdbcType=TIMESTAMP},
+      <if test="row.dateCreated != null">
+        date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.lastModified != null">
-        last_modified = #{record.lastModified,jdbcType=TIMESTAMP},
+      <if test="row.lastModified != null">
+        last_modified = #{row.lastModified,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update person_entity
-    set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      record_status = #{record.recordStatus,jdbcType=INTEGER},
-      remarks = #{record.remarks,jdbcType=VARCHAR},
-      sort_priority = #{record.sortPriority,jdbcType=INTEGER},
-      version = #{record.version,jdbcType=INTEGER},
-      age = #{record.age,jdbcType=INTEGER},
-      birthday = #{record.birthday,jdbcType=DATE},
-      date_created = #{record.dateCreated,jdbcType=TIMESTAMP},
-      last_modified = #{record.lastModified,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=INTEGER},
+      name = #{row.name,jdbcType=VARCHAR},
+      gender = #{row.gender,jdbcType=VARCHAR},
+      address = #{row.address,jdbcType=VARCHAR},
+      phone = #{row.phone,jdbcType=VARCHAR},
+      email = #{row.email,jdbcType=VARCHAR},
+      record_status = #{row.recordStatus,jdbcType=INTEGER},
+      remarks = #{row.remarks,jdbcType=VARCHAR},
+      sort_priority = #{row.sortPriority,jdbcType=INTEGER},
+      version = #{row.version,jdbcType=INTEGER},
+      age = #{row.age,jdbcType=INTEGER},
+      birthday = #{row.birthday,jdbcType=DATE},
+      date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
+      last_modified = #{row.lastModified,jdbcType=TIMESTAMP}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
@@ -349,7 +343,7 @@
         last_modified = #{lastModified,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.persistence.entity.PersonEntity">
     update person_entity
@@ -366,7 +360,7 @@
       birthday = #{birthday,jdbcType=DATE},
       date_created = #{dateCreated,jdbcType=TIMESTAMP},
       last_modified = #{lastModified,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert" parameterType="java.util.List">
     <if test="list != null and list.size() > 0">
@@ -390,7 +384,7 @@
      values 
     <foreach collection="list" index="index" item="item" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
-        #{item.id,jdbcType=BIGINT},
+        #{item.id,jdbcType=INTEGER},
         #{item.name,jdbcType=VARCHAR},
         #{item.gender,jdbcType=VARCHAR},
         #{item.address,jdbcType=VARCHAR},

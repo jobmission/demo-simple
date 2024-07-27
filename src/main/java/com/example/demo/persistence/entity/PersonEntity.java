@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class PersonEntity implements Serializable {
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -35,11 +35,11 @@ public class PersonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

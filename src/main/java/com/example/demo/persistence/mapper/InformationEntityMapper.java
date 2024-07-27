@@ -13,23 +13,23 @@ public interface InformationEntityMapper {
 
     int deleteByExample(InformationEntityExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
-    int insert(InformationEntity record);
+    int insert(InformationEntity row);
 
-    int insertSelective(InformationEntity record);
+    int insertSelective(InformationEntity row);
 
     List<InformationEntity> selectByExample(InformationEntityExample example);
 
-    InformationEntity selectByPrimaryKey(Long id);
+    InformationEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") InformationEntity record, @Param("example") InformationEntityExample example);
+    int updateByExampleSelective(@Param("row") InformationEntity row, @Param("example") InformationEntityExample example);
 
-    int updateByExample(@Param("record") InformationEntity record, @Param("example") InformationEntityExample example);
+    int updateByExample(@Param("row") InformationEntity row, @Param("example") InformationEntityExample example);
 
-    int updateByPrimaryKeySelective(InformationEntity record);
+    int updateByPrimaryKeySelective(InformationEntity row);
 
-    int updateByPrimaryKey(InformationEntity record);
+    int updateByPrimaryKey(InformationEntity row);
 
     int batchInsert(List<InformationEntity> list);
 

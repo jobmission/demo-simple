@@ -13,23 +13,23 @@ public interface ArticleEntityMapper {
 
     int deleteByExample(ArticleEntityExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
-    int insert(ArticleEntity record);
+    int insert(ArticleEntity row);
 
-    int insertSelective(ArticleEntity record);
+    int insertSelective(ArticleEntity row);
 
     List<ArticleEntity> selectByExample(ArticleEntityExample example);
 
-    ArticleEntity selectByPrimaryKey(Long id);
+    ArticleEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") ArticleEntity record, @Param("example") ArticleEntityExample example);
+    int updateByExampleSelective(@Param("row") ArticleEntity row, @Param("example") ArticleEntityExample example);
 
-    int updateByExample(@Param("record") ArticleEntity record, @Param("example") ArticleEntityExample example);
+    int updateByExample(@Param("row") ArticleEntity row, @Param("example") ArticleEntityExample example);
 
-    int updateByPrimaryKeySelective(ArticleEntity record);
+    int updateByPrimaryKeySelective(ArticleEntity row);
 
-    int updateByPrimaryKey(ArticleEntity record);
+    int updateByPrimaryKey(ArticleEntity row);
 
     int batchInsert(List<ArticleEntity> list);
 

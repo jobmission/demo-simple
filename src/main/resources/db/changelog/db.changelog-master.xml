@@ -25,6 +25,8 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="date_created" type="datetime"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP" name="last_modified" type="datetime"/>
         </createTable>
+        <addUniqueConstraint columnNames="author,title" constraintName="uc_ae_author_title"
+                             tableName="article_entity"/>
     </changeSet>
     <changeSet author="wzhang" id="create_table_article_demo_user">
         <createTable remarks="用户表" tableName="demo_user">
@@ -58,6 +60,10 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="date_created" type="datetime"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP" name="last_modified" type="datetime"/>
         </createTable>
+        <createIndex indexName="index_ie_title_summary" tableName="information_entity">
+            <column name="title"/>
+            <column name="summary"/>
+        </createIndex>
     </changeSet>
     <changeSet author="wzhang" id="create_table_person_entity">
         <createTable remarks="person表" tableName="person_entity">

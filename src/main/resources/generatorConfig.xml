@@ -31,6 +31,7 @@
         <!--去除注释 -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
+            <!--<property name="suppressDate" value="true"/>-->
         </commentGenerator>
 
         <!--数据库连接 -->
@@ -72,7 +73,7 @@
 
 
         <table tableName="%_entity">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
             <columnOverride column="pj" jdbcType="JAVA_OBJECT" javaType="Object"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"></columnOverride>
             <ignoreColumn column="bcolumn"/>

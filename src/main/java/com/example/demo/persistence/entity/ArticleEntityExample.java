@@ -186,6 +186,15 @@ public class ArticleEntityExample {
     }
 
     /**
+     * clearOrderBy
+     */
+    public void clearOrderBy() {
+        if (orderByClause != null) {
+            orderByClause.clear();
+        }
+    }
+
+    /**
      * @param commaSeparatedColumns 期望返回字段，以逗号分割开
      */
     public void setCommaSeparatedColumns(String commaSeparatedColumns) {
@@ -258,52 +267,52 @@ public class ArticleEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -1044,6 +1053,66 @@ public class ArticleEntityExample {
 
         public Criteria andFunctionRightKey(String functionName, String searchKey, Object searchValue) {
             addCriterion(6, functionName, searchKey, searchValue);
+            return (Criteria) this;
+        }
+
+        public Criteria andIdRegexp(String regexp) {
+            addCriterion("id regexp", regexp, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorRegexp(String regexp) {
+            addCriterion("author regexp", regexp, "author");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleRegexp(String regexp) {
+            addCriterion("title regexp", regexp, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsRegexp(String regexp) {
+            addCriterion("tags regexp", regexp, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentRegexp(String regexp) {
+            addCriterion("content regexp", regexp, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andPjRegexp(String regexp) {
+            addCriterion("pj regexp", regexp, "pj");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordStatusRegexp(String regexp) {
+            addCriterion("record_status regexp", regexp, "recordStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksRegexp(String regexp) {
+            addCriterion("remarks regexp", regexp, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortPriorityRegexp(String regexp) {
+            addCriterion("sort_priority regexp", regexp, "sortPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionRegexp(String regexp) {
+            addCriterion("version regexp", regexp, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andDateCreatedRegexp(String regexp) {
+            addCriterion("date_created regexp", regexp, "dateCreated");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastModifiedRegexp(String regexp) {
+            addCriterion("last_modified regexp", regexp, "lastModified");
             return (Criteria) this;
         }
     }
