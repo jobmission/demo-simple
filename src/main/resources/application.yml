@@ -33,6 +33,18 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         hikari:
             max-lifetime: 300000
+#    datasource:
+#        url: jdbc:postgresql://localhost:5432/demo_01?createDatabaseIfNotExist=true
+#        username: postgres
+#        password: toor
+#        driver-class-name: org.postgresql.Driver
+#        hikari:
+#            max-lifetime: 300000
+#    datasource:
+#        url: jdbc:sqlite:F:\sourcecode\demo_01.db
+#        username:
+#        password:
+#        driver-class-name: org.sqlite.JDBC
     redis:
         host: localhost
         port: 6379
