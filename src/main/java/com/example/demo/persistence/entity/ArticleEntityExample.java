@@ -47,10 +47,10 @@ public class ArticleEntityExample {
     }
 
     public String getOrderByClause() {
-        if (orderByClause != null && orderByClause.size() > 0) {
+        if (orderByClause != null && !orderByClause.isEmpty()) {
             StringBuffer sb = new StringBuffer();
             orderByClause.forEach((k, v) -> {
-                sb.append(',' + k + ' ' + v);
+                sb.append(',').append(k).append(' ').append(v);
             });
             return sb.toString().replaceFirst(",", "");
         } else {
@@ -1041,8 +1041,22 @@ public class ArticleEntityExample {
             criteria.add(new Criterion(additionalCondition, functionName, value, secondValue));
         }
 
+        protected void addCriterion(int additionalCondition, String functionName, Object value, Object secondValue, Object thirdValue) {
+            criteria.add(new Criterion(additionalCondition, functionName, value, secondValue, thirdValue));
+        }
+
         public Criteria andConditionValue(String searchCondition, Object searchValue) {
-            addCriterion(3, "conditionValue", searchCondition, searchValue);
+            addCriterion(searchCondition, searchValue, "");
+            return (Criteria) this;
+        }
+
+        public Criteria andConditionJsonFieldValue(String jsonColumn, String jsonField, String condition, Object searchValue) {
+            addCriterion(4, condition, jsonColumn, jsonField, searchValue);
+            return (Criteria) this;
+        }
+
+        public Criteria andConditionJsonFieldContains(String jsonColumn, String jsonField, Object searchValue) {
+            addCriterion(7, "JSON_CONTAINS", jsonColumn, jsonField, searchValue);
             return (Criteria) this;
         }
 
@@ -1142,6 +1156,8 @@ public class ArticleEntityExample {
 
         private int additionalCondition = 0;
 
+        private Object thirdValue;
+
         public String getCondition() {
             return condition;
         }
@@ -1214,12 +1230,25 @@ public class ArticleEntityExample {
             return additionalCondition;
         }
 
-        Criterion(int additionalCondition, String functionName, Object value, Object secondValue) {
+        public Object getThirdValue() {
+            return thirdValue;
+        }
+
+        protected Criterion(int additionalCondition, String condition, Object value, Object secondValue) {
             super();
             this.additionalCondition = additionalCondition;
-            this.condition = functionName;
+            this.condition = condition;
             this.value = value;
             this.secondValue = secondValue;
+        }
+
+        protected Criterion(int additionalCondition, String condition, Object value, Object secondValue, Object thirdValue) {
+            super();
+            this.additionalCondition = additionalCondition;
+            this.condition = condition;
+            this.value = value;
+            this.secondValue = secondValue;
+            this.thirdValue = thirdValue;
         }
     }
 }

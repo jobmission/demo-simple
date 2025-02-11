@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.persistence.mapper.ArticleEntityMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.persistence.entity.ArticleEntity">
+<mapper namespace="com.example.demo.persistence.mapper.UserEntityMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.persistence.entity.UserEntity">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="author" jdbcType="VARCHAR" property="author" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="tags" jdbcType="VARCHAR" property="tags" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="pj" jdbcType="JAVA_OBJECT" property="pj" />
-    <result column="record_status" jdbcType="INTEGER" property="recordStatus" />
-    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="sort_priority" jdbcType="INTEGER" property="sortPriority" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated" />
-    <result column="last_modified" jdbcType="TIMESTAMP" property="lastModified" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -158,16 +148,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, author, title, tags, content, pj, record_status, remarks, sort_priority, version, 
-    date_created, last_modified
+    id, username
   </sql>
-  <select id="selectByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from article_entity
+    from user_entity
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -178,146 +167,50 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from article_entity
+    from user_entity
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from article_entity
+    delete from user_entity
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample">
-    delete from article_entity
+  <delete id="deleteByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample">
+    delete from user_entity
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.ArticleEntity" useGeneratedKeys="true">
-    insert into article_entity (author, title, tags, 
-      content, pj, record_status, 
-      remarks, sort_priority, version, 
-      date_created, last_modified)
-    values (#{author,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{pj,jdbcType=JAVA_OBJECT}, #{recordStatus,jdbcType=INTEGER}, 
-      #{remarks,jdbcType=VARCHAR}, #{sortPriority,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, 
-      #{dateCreated,jdbcType=TIMESTAMP}, #{lastModified,jdbcType=TIMESTAMP})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.UserEntity" useGeneratedKeys="true">
+    insert into user_entity (username)
+    values (#{username,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.ArticleEntity" useGeneratedKeys="true">
-    insert into article_entity
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.UserEntity" useGeneratedKeys="true">
+    insert into user_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="author != null">
-        author,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="tags != null">
-        tags,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="pj != null">
-        pj,
-      </if>
-      <if test="recordStatus != null">
-        record_status,
-      </if>
-      <if test="remarks != null">
-        remarks,
-      </if>
-      <if test="sortPriority != null">
-        sort_priority,
-      </if>
-      <if test="version != null">
-        version,
-      </if>
-      <if test="dateCreated != null">
-        date_created,
-      </if>
-      <if test="lastModified != null">
-        last_modified,
+      <if test="username != null">
+        username,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="author != null">
-        #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="tags != null">
-        #{tags,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="pj != null">
-        #{pj,jdbcType=JAVA_OBJECT},
-      </if>
-      <if test="recordStatus != null">
-        #{recordStatus,jdbcType=INTEGER},
-      </if>
-      <if test="remarks != null">
-        #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="sortPriority != null">
-        #{sortPriority,jdbcType=INTEGER},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=INTEGER},
-      </if>
-      <if test="dateCreated != null">
-        #{dateCreated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastModified != null">
-        #{lastModified,jdbcType=TIMESTAMP},
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.lang.Long">
-    select count(*) from article_entity
+  <select id="countByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.lang.Long">
+    select count(*) from user_entity
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update article_entity
+    update user_entity
     <set>
       <if test="row.id != null">
         id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="row.author != null">
-        author = #{row.author,jdbcType=VARCHAR},
-      </if>
-      <if test="row.title != null">
-        title = #{row.title,jdbcType=VARCHAR},
-      </if>
-      <if test="row.tags != null">
-        tags = #{row.tags,jdbcType=VARCHAR},
-      </if>
-      <if test="row.content != null">
-        content = #{row.content,jdbcType=VARCHAR},
-      </if>
-      <if test="row.pj != null">
-        pj = #{row.pj,jdbcType=JAVA_OBJECT},
-      </if>
-      <if test="row.recordStatus != null">
-        record_status = #{row.recordStatus,jdbcType=INTEGER},
-      </if>
-      <if test="row.remarks != null">
-        remarks = #{row.remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="row.sortPriority != null">
-        sort_priority = #{row.sortPriority,jdbcType=INTEGER},
-      </if>
-      <if test="row.version != null">
-        version = #{row.version,jdbcType=INTEGER},
-      </if>
-      <if test="row.dateCreated != null">
-        date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="row.lastModified != null">
-        last_modified = #{row.lastModified,jdbcType=TIMESTAMP},
+      <if test="row.username != null">
+        username = #{row.username,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="example != null">
@@ -325,107 +218,37 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update article_entity
+    update user_entity
     set id = #{row.id,jdbcType=INTEGER},
-      author = #{row.author,jdbcType=VARCHAR},
-      title = #{row.title,jdbcType=VARCHAR},
-      tags = #{row.tags,jdbcType=VARCHAR},
-      content = #{row.content,jdbcType=VARCHAR},
-      pj = #{row.pj,jdbcType=JAVA_OBJECT},
-      record_status = #{row.recordStatus,jdbcType=INTEGER},
-      remarks = #{row.remarks,jdbcType=VARCHAR},
-      sort_priority = #{row.sortPriority,jdbcType=INTEGER},
-      version = #{row.version,jdbcType=INTEGER},
-      date_created = #{row.dateCreated,jdbcType=TIMESTAMP},
-      last_modified = #{row.lastModified,jdbcType=TIMESTAMP}
+      username = #{row.username,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.persistence.entity.ArticleEntity">
-    update article_entity
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.persistence.entity.UserEntity">
+    update user_entity
     <set>
-      <if test="author != null">
-        author = #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="tags != null">
-        tags = #{tags,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="pj != null">
-        pj = #{pj,jdbcType=JAVA_OBJECT},
-      </if>
-      <if test="recordStatus != null">
-        record_status = #{recordStatus,jdbcType=INTEGER},
-      </if>
-      <if test="remarks != null">
-        remarks = #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="sortPriority != null">
-        sort_priority = #{sortPriority,jdbcType=INTEGER},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="dateCreated != null">
-        date_created = #{dateCreated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastModified != null">
-        last_modified = #{lastModified,jdbcType=TIMESTAMP},
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.persistence.entity.ArticleEntity">
-    update article_entity
-    set author = #{author,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
-      tags = #{tags,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      pj = #{pj,jdbcType=JAVA_OBJECT},
-      record_status = #{recordStatus,jdbcType=INTEGER},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      sort_priority = #{sortPriority,jdbcType=INTEGER},
-      version = #{version,jdbcType=INTEGER},
-      date_created = #{dateCreated,jdbcType=TIMESTAMP},
-      last_modified = #{lastModified,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.persistence.entity.UserEntity">
+    update user_entity
+    set username = #{username,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert" parameterType="java.util.List">
     <if test="list != null and list.size() > 0">
-    insert into article_entity
+    insert into user_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      author,
-      title,
-      tags,
-      content,
-      pj,
-      record_status,
-      remarks,
-      sort_priority,
-      version,
-      date_created,
-      last_modified,
+      username,
     </trim>
      values 
     <foreach collection="list" index="index" item="item" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
-        #{item.author,jdbcType=VARCHAR},
-        #{item.title,jdbcType=VARCHAR},
-        #{item.tags,jdbcType=VARCHAR},
-        #{item.content,jdbcType=VARCHAR},
-        #{item.pj,jdbcType=JAVA_OBJECT},
-        #{item.recordStatus,jdbcType=INTEGER},
-        #{item.remarks,jdbcType=VARCHAR},
-        #{item.sortPriority,jdbcType=INTEGER},
-        #{item.version,jdbcType=INTEGER},
-        #{item.dateCreated,jdbcType=TIMESTAMP},
-        #{item.lastModified,jdbcType=TIMESTAMP},
+        #{item.username,jdbcType=VARCHAR},
       </trim>
     </foreach>
     </if>
@@ -433,7 +256,7 @@
       select 0
     </if>
   </insert>
-  <select id="selectColumnsByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultMap="BaseResultMap">
+  <select id="selectColumnsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
     select
     <if test="commaSeparatedColumns != null">
       ${commaSeparatedColumns}
@@ -441,62 +264,49 @@
     <if test="commaSeparatedColumns == null">
       <include refid="Base_Column_List" />
     </if>
-    from article_entity
+    from user_entity
     <include refid="Example_Where_Clause" />
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectIdsByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.lang.Long">
+  <select id="selectIdsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.lang.Long">
     select 
     id 
-    from article_entity
+    from user_entity
     <include refid="Example_Where_Clause" />
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="aggregateQueryByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.util.HashMap">
+  <select id="aggregateQueryByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.util.HashMap">
     select 
     ${commaSeparatedColumns} 
-    from article_entity
+    from user_entity
     <include refid="Example_Where_Clause" />
     ${aggregateByClause} 
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="aggregateStatisticsByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultType="java.util.HashMap">
+  <select id="aggregateStatisticsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.util.HashMap">
     select 
     ${commaSeparatedColumns} 
-    from article_entity
+    from user_entity
     <include refid="Example_Where_Clause" />
     ${aggregateByClause} 
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectUniqueByExample" parameterType="com.example.demo.persistence.entity.ArticleEntityExample" resultMap="BaseResultMap">
+  <select id="selectUniqueByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from article_entity
+    from user_entity
     <include refid="Example_Where_Clause" />
   </select>
-  <update id="logicalDeleteById">
-    update article_entity
-    set record_status = -7
-    where id = #{id}
-  </update>
-  <update id="logicalDeleteByIds">
-    update article_entity
-    set record_status = -7
-    where id in
-    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
-  </update>
   <delete id="deleteByIds">
-    delete from article_entity
+    delete from user_entity
     where id in
     <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
       #{item}

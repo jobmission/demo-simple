@@ -34,8 +34,41 @@
                     #{listItem}
                   </foreach>
                 </when>
-                <when test="criterion.additionalCondition == 3">
-                  and ${criterion.value} #{criterion.secondValue}
+                <when test="criterion.additionalCondition == 4">
+                  <if test="_databaseId == 'mysql'">
+                    and ${criterion.value}->>'$.${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    and ${criterion.value}->>'${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 7">
+                  <if test="_databaseId == 'mysql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$', #{criterion.thirdValue})
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$.${criterion.secondValue}', #{criterion.thirdValue})
+                    </if>
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and ${criterion.value}::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and (${criterion.value}->>'${criterion.secondValue}')::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
                 </when>
                 <when test="criterion.additionalCondition == 5">
                   and ${criterion.condition} (${criterion.value}, #{criterion.secondValue})
@@ -72,8 +105,41 @@
                     #{listItem}
                   </foreach>
                 </when>
-                <when test="criterion.additionalCondition == 3">
-                  and ${criterion.value} #{criterion.secondValue}
+                <when test="criterion.additionalCondition == 4">
+                  <if test="_databaseId == 'mysql'">
+                    and ${criterion.value}->>'$.${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    and ${criterion.value}->>'${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 7">
+                  <if test="_databaseId == 'mysql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$', #{criterion.thirdValue})
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$.${criterion.secondValue}', #{criterion.thirdValue})
+                    </if>
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and ${criterion.value}::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and (${criterion.value}->>'${criterion.secondValue}')::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
                 </when>
                 <when test="criterion.additionalCondition == 5">
                   and ${criterion.condition} (${criterion.value}, #{criterion.secondValue})
@@ -287,7 +353,6 @@
     <if test="list != null and list.size() > 0">
     insert into sequence_entity
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      id,
       sequence_name,
       current_value,
       version,
@@ -300,7 +365,6 @@
      values 
     <foreach collection="list" index="index" item="item" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
-        #{item.id,jdbcType=INTEGER},
         #{item.sequenceName,jdbcType=VARCHAR},
         #{item.currentValue,jdbcType=BIGINT},
         #{item.version,jdbcType=INTEGER},

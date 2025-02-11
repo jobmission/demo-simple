@@ -2,11 +2,11 @@ package com.example.demo;
 
 import org.apache.iotdb.isession.SessionDataSet;
 import org.apache.iotdb.session.Session;
-import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
-import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
-import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
-import org.apache.iotdb.tsfile.read.common.Field;
-import org.apache.iotdb.tsfile.read.common.RowRecord;
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.file.metadata.enums.CompressionType;
+import org.apache.tsfile.file.metadata.enums.TSEncoding;
+import org.apache.tsfile.read.common.Field;
+import org.apache.tsfile.read.common.RowRecord;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -62,15 +62,15 @@ public class TestIotdb {
         SessionDataSet dataSet = session.executeQueryStatement("select * from root.g1.f1.d1");
         List<String> list = dataSet.getColumnNames();
         for (String s : list) {
-            System.out.printf("%-35s",s );
+            System.out.printf("%-35s", s);
         }
         System.out.println();
         dataSet.setFetchSize(1024);
-        while (dataSet.hasNext()){
+        while (dataSet.hasNext()) {
             RowRecord record = dataSet.next();
-            System.out.printf("%-35s",record.getTimestamp());
+            System.out.printf("%-35s", record.getTimestamp());
             for (Field field : record.getFields()) {
-                System.out.printf("%-35s",field.getIntV());
+                System.out.printf("%-35s", field.getIntV());
             }
             System.out.println();
         }
