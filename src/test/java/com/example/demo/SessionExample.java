@@ -9,6 +9,7 @@ import org.apache.tsfile.enums.TSDataType;
 import org.apache.tsfile.file.metadata.enums.CompressionType;
 import org.apache.tsfile.file.metadata.enums.TSEncoding;
 import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.IMeasurementSchema;
 import org.apache.tsfile.write.schema.MeasurementSchema;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -174,7 +175,6 @@ public class SessionExample {
 
 
     private static void insertRecord() throws IoTDBConnectionException, StatementExecutionException {
-        String deviceId = ROOT_SG1_D1;
         List<String> measurements = new ArrayList<>();
         List<TSDataType> types = new ArrayList<>();
         measurements.add("s1");
@@ -189,7 +189,7 @@ public class SessionExample {
             values.add(1L);
             values.add(2L);
             values.add(3L);
-            session.insertRecord(deviceId, time, measurements, types, values);
+            session.insertRecord(ROOT_SG1_D1, time, measurements, types, values);
         }
     }
 
@@ -220,7 +220,6 @@ public class SessionExample {
 
     private static void insertStrRecord()
         throws IoTDBConnectionException, StatementExecutionException {
-        String deviceId = ROOT_SG1_D1;
         List<String> measurements = new ArrayList<>();
         measurements.add("s1");
         measurements.add("s2");
@@ -231,7 +230,7 @@ public class SessionExample {
             values.add("1");
             values.add("2");
             values.add("3");
-            session.insertRecord(deviceId, time, measurements, values);
+            session.insertRecord(ROOT_SG1_D1, time, measurements, values);
         }
     }
 
@@ -308,7 +307,7 @@ public class SessionExample {
          */
         // The schema of measurements of one device
         // only measurementId and data type in MeasurementSchema take effects in Tablet
-        List<MeasurementSchema> schemaList = new ArrayList<>();
+        List<IMeasurementSchema> schemaList = new ArrayList<>();
         schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
@@ -318,43 +317,42 @@ public class SessionExample {
         // Method 1 to add tablet data
         long timestamp = System.currentTimeMillis();
 
-        for (long row = 0; row < 100; row++) {
-            int rowIndex = tablet.rowSize++;
-            tablet.addTimestamp(rowIndex, timestamp);
+        for (int row = 0; row < 100; row++) {
+            tablet.addTimestamp(row, timestamp);
             for (int s = 0; s < 3; s++) {
                 long value = new Random().nextLong();
-                tablet.addValue(schemaList.get(s).getMeasurementId(), rowIndex, value);
+                tablet.addValue(row, s, value);
             }
-            if (tablet.rowSize == tablet.getMaxRowNumber()) {
+            if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
                 session.insertTablet(tablet, true);
                 tablet.reset();
             }
             timestamp++;
         }
 
-        if (tablet.rowSize != 0) {
+        if (tablet.getRowSize() != 0) {
             session.insertTablet(tablet);
             tablet.reset();
         }
 
         // Method 2 to add tablet data
-        long[] timestamps = tablet.timestamps;
-        Object[] values = tablet.values;
+        long[] timestamps = tablet.getTimestamps();
+        Object[] values = tablet.getValues();
 
         for (long time = 0; time < 100; time++) {
-            int row = tablet.rowSize++;
+            int row = tablet.getRowSize() + 1;
             timestamps[row] = time;
             for (int i = 0; i < 3; i++) {
                 long[] sensor = (long[]) values[i];
                 sensor[row] = i;
             }
-            if (tablet.rowSize == tablet.getMaxRowNumber()) {
+            if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
                 session.insertTablet(tablet, true);
                 tablet.reset();
             }
         }
 
-        if (tablet.rowSize != 0) {
+        if (tablet.getRowSize() != 0) {
             session.insertTablet(tablet);
             tablet.reset();
         }
@@ -363,7 +361,7 @@ public class SessionExample {
     private static void insertTablets() throws IoTDBConnectionException, StatementExecutionException {
         // The schema of measurements of one device
         // only measurementId and data type in MeasurementSchema take effects in Tablet
-        List<MeasurementSchema> schemaList = new ArrayList<>();
+        List<IMeasurementSchema> schemaList = new ArrayList<>();
         schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
@@ -380,19 +378,19 @@ public class SessionExample {
         // Method 1 to add tablet data
         long timestamp = System.currentTimeMillis();
         for (long row = 0; row < 100; row++) {
-            int row1 = tablet1.rowSize++;
-            int row2 = tablet2.rowSize++;
-            int row3 = tablet3.rowSize++;
+            int row1 = tablet1.getRowSize() + 1;
+            int row2 = tablet2.getRowSize() + 1;
+            int row3 = tablet3.getRowSize() + 1;
             tablet1.addTimestamp(row1, timestamp);
             tablet2.addTimestamp(row2, timestamp);
             tablet3.addTimestamp(row3, timestamp);
             for (int i = 0; i < 3; i++) {
                 long value = new Random().nextLong();
-                tablet1.addValue(schemaList.get(i).getMeasurementId(), row1, value);
-                tablet2.addValue(schemaList.get(i).getMeasurementId(), row2, value);
-                tablet3.addValue(schemaList.get(i).getMeasurementId(), row3, value);
+                tablet1.addValue(schemaList.get(i).getMeasurementName(), row1, value);
+                tablet2.addValue(schemaList.get(i).getMeasurementName(), row2, value);
+                tablet3.addValue(schemaList.get(i).getMeasurementName(), row3, value);
             }
-            if (tablet1.rowSize == tablet1.getMaxRowNumber()) {
+            if (tablet1.getRowSize() == tablet1.getMaxRowNumber()) {
                 session.insertTablets(tabletMap, true);
                 tablet1.reset();
                 tablet2.reset();
@@ -401,7 +399,7 @@ public class SessionExample {
             timestamp++;
         }
 
-        if (tablet1.rowSize != 0) {
+        if (tablet1.getRowSize() != 0) {
             session.insertTablets(tabletMap, true);
             tablet1.reset();
             tablet2.reset();
@@ -409,17 +407,17 @@ public class SessionExample {
         }
 
         // Method 2 to add tablet data
-        long[] timestamps1 = tablet1.timestamps;
-        Object[] values1 = tablet1.values;
-        long[] timestamps2 = tablet2.timestamps;
-        Object[] values2 = tablet2.values;
-        long[] timestamps3 = tablet3.timestamps;
-        Object[] values3 = tablet3.values;
+        long[] timestamps1 = tablet1.getTimestamps();
+        Object[] values1 = tablet1.getValues();
+        long[] timestamps2 = tablet2.getTimestamps();
+        Object[] values2 = tablet2.getValues();
+        long[] timestamps3 = tablet3.getTimestamps();
+        Object[] values3 = tablet3.getValues();
 
         for (long time = 0; time < 100; time++) {
-            int row1 = tablet1.rowSize++;
-            int row2 = tablet2.rowSize++;
-            int row3 = tablet3.rowSize++;
+            int row1 = tablet1.getRowSize() + 1;
+            int row2 = tablet2.getRowSize() + 1;
+            int row3 = tablet3.getRowSize() + 1;
             timestamps1[row1] = time;
             timestamps2[row2] = time;
             timestamps3[row3] = time;
@@ -431,7 +429,7 @@ public class SessionExample {
                 long[] sensor3 = (long[]) values3[i];
                 sensor3[row3] = i;
             }
-            if (tablet1.rowSize == tablet1.getMaxRowNumber()) {
+            if (tablet1.getRowSize() == tablet1.getMaxRowNumber()) {
                 session.insertTablets(tabletMap, true);
 
                 tablet1.reset();
@@ -440,7 +438,7 @@ public class SessionExample {
             }
         }
 
-        if (tablet1.rowSize != 0) {
+        if (tablet1.getRowSize() != 0) {
             session.insertTablets(tabletMap, true);
             tablet1.reset();
             tablet2.reset();
