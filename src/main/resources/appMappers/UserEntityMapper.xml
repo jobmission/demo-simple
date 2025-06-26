@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.persistence.mapper.UserEntityMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.persistence.entity.UserEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+                <when test="criterion.additionalCondition == 4">
+                  <if test="_databaseId == 'mysql'">
+                    and ${criterion.value}->>'$.${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    and ${criterion.value}->>'${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 7">
+                  <if test="_databaseId == 'mysql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$', #{criterion.thirdValue})
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$.${criterion.secondValue}', #{criterion.thirdValue})
+                    </if>
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and ${criterion.value}::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and (${criterion.value}->>'${criterion.secondValue}')::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 5">
+                  and ${criterion.condition} (${criterion.value}, #{criterion.secondValue})
+                </when>
+                <when test="criterion.additionalCondition == 6">
+                  and ${criterion.condition} (#{criterion.secondValue}, ${criterion.value})
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+                <when test="criterion.additionalCondition == 4">
+                  <if test="_databaseId == 'mysql'">
+                    and ${criterion.value}->>'$.${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    and ${criterion.value}->>'${criterion.secondValue}' ${criterion.condition} #{criterion.thirdValue}
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 7">
+                  <if test="_databaseId == 'mysql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$', #{criterion.thirdValue})
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and JSON_CONTAINS(${criterion.value}->>'$.${criterion.secondValue}', #{criterion.thirdValue})
+                    </if>
+                  </if>
+                  <if test="_databaseId == 'postgresql'">
+                    <if test="criterion.value == criterion.secondValue">
+                      and ${criterion.value}::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                    <if test="criterion.value != criterion.secondValue">
+                      and (${criterion.value}->>'${criterion.secondValue}')::jsonb @> #{criterion.thirdValue}::jsonb
+                    </if>
+                  </if>
+                  <if test="_databaseId != 'mysql' and _databaseId != 'postgresql'">
+                    <!--
+                      otherwise.
+                    -->
+                  </if>
+                </when>
+                <when test="criterion.additionalCondition == 5">
+                  and ${criterion.condition} (${criterion.value}, #{criterion.secondValue})
+                </when>
+                <when test="criterion.additionalCondition == 6">
+                  and ${criterion.condition} (#{criterion.secondValue}, ${criterion.value})
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, username
+  </sql>
+  <select id="selectByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_entity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_entity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_entity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample">
+    delete from user_entity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.UserEntity" useGeneratedKeys="true">
+    insert into user_entity (username)
+    values (#{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.persistence.entity.UserEntity" useGeneratedKeys="true">
+    insert into user_entity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.lang.Long">
+    select count(*) from user_entity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_entity
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
+      </if>
+      <if test="row.username != null">
+        username = #{row.username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_entity
+    set id = #{row.id,jdbcType=INTEGER},
+      username = #{row.username,jdbcType=VARCHAR}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.persistence.entity.UserEntity">
+    update user_entity
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.persistence.entity.UserEntity">
+    update user_entity
+    set username = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsert" parameterType="java.util.List">
+    <if test="list != null and list.size() > 0">
+    insert into user_entity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      username,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        #{item.username,jdbcType=VARCHAR},
+      </trim>
+    </foreach>
+    </if>
+    <if test="list == null or list.size() == 0">
+      select 0
+    </if>
+  </insert>
+  <select id="selectColumnsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="commaSeparatedColumns != null">
+      ${commaSeparatedColumns}
+    </if>
+    <if test="commaSeparatedColumns == null">
+      <include refid="Base_Column_List" />
+    </if>
+    from user_entity mt
+    <include refid="Example_Where_Clause" />
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectIdsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.lang.Long">
+    select 
+    id 
+    from user_entity mt
+    <include refid="Example_Where_Clause" />
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="aggregateQueryByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.util.HashMap">
+    select 
+    ${commaSeparatedColumns} 
+    from user_entity mt
+    <include refid="Example_Where_Clause" />
+    ${aggregateByClause} 
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="aggregateStatisticsByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultType="java.util.HashMap">
+    select 
+    ${commaSeparatedColumns} 
+    from user_entity mt
+    <include refid="Example_Where_Clause" />
+    ${aggregateByClause} 
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectUniqueByExample" parameterType="com.example.demo.persistence.entity.UserEntityExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_entity mt
+    <include refid="Example_Where_Clause" />
+  </select>
+  <delete id="deleteByIds">
+    delete from user_entity
+    where id in
+    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </delete>
+</mapper>

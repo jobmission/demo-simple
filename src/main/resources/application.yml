@@ -1,0 +1,81 @@
+server:
+    port: 30880
+    servlet:
+        context-path: /
+management:
+    endpoint:
+        health:
+            show-details: when-authorized
+logging:
+    level:
+        root: info
+        org.apache.ibatis: info
+        com.example.demo.persistence: info
+    file:
+        path: /tmp/logs/demo-simple
+spring:
+    threads:
+        virtual: true
+    liquibase:
+        change-log: classpath:db/changelog/db.changelog-master.xml
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: UTC
+    task:
+        execution:
+            pool:
+                core-size: 8
+        scheduling:
+            pool:
+                size: 10
+    #    datasource:
+    #        url: jdbc:mysql://localhost:3306/demo_01?createDatabaseIfNotExist=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    #        username: user_dev
+    #        password: pass_dev
+    #        driver-class-name: com.mysql.cj.jdbc.Driver
+    #        hikari:
+    #            max-lifetime: 300000
+    datasource:
+        url: jdbc:postgresql://127.0.0.1:5432/demo_01?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: postgres
+        password: P@ssw0rd
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            max-lifetime: 300000
+    #    datasource:
+    #        url: jdbc:sqlite:F:\sourcecode\demo_01.db
+    #        username:
+    #        password:
+    #        driver-class-name: org.sqlite.JDBC
+    redis:
+        host: localhost
+        port: 6379
+        password: guest
+    cache:
+        type: redis
+        redis:
+            cache-null-values: false
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+        publisher-confirms: true
+        virtual-host: /
+        listener:
+            simple:
+                #                retry:
+                #                    enabled: true
+                #                    max-attempts: 2
+                #                    initial-interval: 1000
+                acknowledge-mode: manual  #none、manual、auto
+                default-requeue-rejected: false
+mybatis:
+    mapper-locations: classpath:appMappers/*.xml
+
+pagehelper:
+    #helper-dialect: mysql
+    reasonable: false
+    supportMethodsArguments: true
+    params: count=countSql
+    default-count: false
