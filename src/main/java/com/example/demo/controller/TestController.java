@@ -15,7 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +41,7 @@ public class TestController implements InitializingBean {
     DataSource dataSource;
 
     @ResponseBody
-    @RequestMapping("/t1")
+    @GetMapping("/t1")
     public String t1() {
 
         log.info("系统info，info");
@@ -52,19 +52,19 @@ public class TestController implements InitializingBean {
     }
 
     @ResponseBody
-    @RequestMapping("/t3")
+    @GetMapping("/t3")
     public LocalDateTime t3() {
         return LocalDateTime.now();
     }
 
     @ResponseBody
-    @RequestMapping("/t4")
+    @GetMapping("/t4")
     public LocalDate t4() {
         return LocalDate.now();
     }
 
     @ResponseBody
-    @RequestMapping("/t5")
+    @GetMapping("/t5")
     public Instant t5() {
         log.info("=================" + LocalDateTime.parse("2019-10-24T11:10:57").toInstant(ZoneOffset.UTC));
         log.info("=================" + LocalDateTime.parse("2019-10-24T11:10:57"));
@@ -72,25 +72,25 @@ public class TestController implements InitializingBean {
     }
 
     @ResponseBody
-    @RequestMapping("/t6")
+    @GetMapping("/t6")
     public ZonedDateTime t6() {
         return ZonedDateTime.now();
     }
 
     @ResponseBody
-    @RequestMapping("/t7")
+    @GetMapping("/t7")
     public Instant t7() {
         return ZonedDateTime.now().toInstant();
     }
 
     @ResponseBody
-    @RequestMapping("/t8")
+    @GetMapping("/t8")
     public LocalDateTime t8() {
         return ZonedDateTime.now().toLocalDateTime();
     }
 
     @ResponseBody
-    @RequestMapping("/t9")
+    @GetMapping("/t9")
     public ZonedDateTime t9() {
         ZoneId america = ZoneId.of("America/New_York");
         // ZonedDateTime dateAndTimeInNewYork
@@ -101,9 +101,8 @@ public class TestController implements InitializingBean {
     }
 
     @ResponseBody
-    @RequestMapping("/t2")
-    public List<ArticleEntity> t2(
-        @RequestParam(value = "author", required = false, defaultValue = "abc") String author) {
+    @GetMapping("/t2")
+    public List<ArticleEntity> t2(@RequestParam(value = "author", required = false, defaultValue = "abc") String author) {
 
         if (dataSource instanceof HikariDataSource) {
             HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
@@ -120,7 +119,7 @@ public class TestController implements InitializingBean {
     }
 
     @ResponseBody
-    @RequestMapping("/oauth/check_token")
+    @GetMapping("/oauth/check_token")
     public Map<String, Object> checkToken(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String, Object> result = new HashMap<>();
@@ -155,7 +154,7 @@ public class TestController implements InitializingBean {
 
     @CrossOrigin("*")
     @ResponseBody
-    @RequestMapping(value = "/sse/random", produces = "text/event-stream;charset=UTF-8")
+    @GetMapping(value = "/sse/random", produces = "text/event-stream;charset=UTF-8")
     public String ssePushTest() {
         log.info(LocalTime.now().toString());
         return "data:模拟动态数据" + Math.random() + "\n\n";
