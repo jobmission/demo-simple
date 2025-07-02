@@ -5,11 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 
-import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +23,20 @@ public class FileBackedCache implements Cache, Serializable {
     private final String cacheDir;
     private final int maxSize;
     private final long expireMinutes;
+    boolean forceClearWhenFull = true;
+
+    public FileBackedCache(String name,
+                           String cacheDir,
+                           int maxSize,
+                           long expireMinutes,
+                           boolean forceClearWhenFull) {
+        this.name = name;
+        this.cache = new ConcurrentHashMap<>();
+        this.cacheDir = cacheDir;
+        this.maxSize = maxSize;
+        this.expireMinutes = expireMinutes;
+        this.forceClearWhenFull = forceClearWhenFull;
+    }
 
     public FileBackedCache(String name,
                            String cacheDir,
@@ -32,8 +45,21 @@ public class FileBackedCache implements Cache, Serializable {
         this.name = name;
         this.cache = new ConcurrentHashMap<>();
         this.cacheDir = cacheDir;
-        this.maxSize = maxSize;
-        this.expireMinutes = expireMinutes;
+        this.maxSize = Math.max(maxSize, 4);
+        if (expireMinutes <= 0) {
+            this.expireMinutes = 60 * 24;
+        } else {
+            this.expireMinutes = expireMinutes;
+        }
+    }
+
+    public FileBackedCache(String name,
+                           String cacheDir) {
+        this.name = name;
+        this.cache = new ConcurrentHashMap<>();
+        this.cacheDir = cacheDir;
+        this.maxSize = 4096;
+        this.expireMinutes = 15;
     }
 
     @NotNull
@@ -91,38 +117,52 @@ public class FileBackedCache implements Cache, Serializable {
 
     @Override
     public void put(@NotNull Object key, Object value) {
-        if (cache.size() >= maxSize) {
-            throw new RuntimeException("Cache [" + name + "] is full");
+        if (cache.containsKey(key.toString())) {
+            cache.put(key.toString(), new CacheValueWrapper(value, expireMinutes * 60));
+        } else {
+            if (cache.size() >= maxSize) {
+                log.info("Cache [{}] is full {}, trying clear expired key", name, cacheSize());
+                cleanExpiredEntries();
+                if (cache.size() >= maxSize) {
+                    log.info("Cache [{}] is still full after cleaning expired keys", name);
+                    if (forceClearWhenFull) {
+                        int clearCount = (int) Math.ceil(maxSize * 0.1);
+                        log.info("Cache [{}] is full, trying force clear {} entries", name, clearCount);
+                        List<String> keyList = cache.entrySet().stream()
+                            .sorted(Comparator.comparingLong(e -> e.getValue().getExpireTimestamp()))
+                            .limit(clearCount)
+                            .map(Map.Entry::getKey)
+                            .toList();
+                        keyList.forEach(this::evict);
+                        log.info("after force clear, cache [{}] size is {}", name, cacheSize());
+                    } else {
+                        throw new RuntimeException("Cache [" + name + "] is full");
+                    }
+                }
+            }
+            cache.put(key.toString(), new CacheValueWrapper(value, expireMinutes * 60));
         }
-        cache.put(key.toString(), new CacheValueWrapper(value, expireMinutes * 60));
     }
 
     @Override
     public void evict(Object key) {
         cache.remove(key.toString());
-        try {
-            Files.deleteIfExists(Paths.get(cacheDir).resolve(key.toString()));
-        } catch (IOException e) {
-            log.error("Failed to delete cache file for key: {}", key, e);
-        }
     }
 
     @Override
     public void clear() {
         cache.clear();
-        try {
-            Files.delete(Paths.get(cacheDir, name));
-        } catch (IOException e) {
-            // Error handling
-            log.error("Failed to delete cache file: {}", name, e);
-        }
+    }
+
+    private void cleanExpiredEntries() {
+        cache.entrySet().removeIf(e -> e.getValue().isExpired());
     }
 
     public Map<String, CacheValueWrapper> getAll() {
         return cache;
     }
 
-    public Map<String, CacheValueWrapper> asMap() {
+    public Map<String, CacheValueWrapper> effectiveMap() {
         return cache.entrySet().stream()
             .filter(entry -> !entry.getValue().isExpired())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -130,12 +170,5 @@ public class FileBackedCache implements Cache, Serializable {
 
     public int cacheSize() {
         return cache.size();
-    }
-
-    private Object unwrapValue(Object value) {
-        if (value instanceof CacheValueWrapper cacheValueWrapper) {
-            return cacheValueWrapper.getValue();
-        }
-        return value;
     }
 }

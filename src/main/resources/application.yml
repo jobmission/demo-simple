@@ -12,7 +12,7 @@ logging:
         org.apache.ibatis: info
         com.example.demo.persistence: info
     file:
-        path: /tmp/logs/demo-simple
+        path: /data/logs/demo-simple
 spring:
     threads:
         virtual: true
@@ -79,3 +79,6 @@ pagehelper:
     supportMethodsArguments: true
     params: count=countSql
     default-count: false
+springdoc:
+    swagger-ui:
+        docExpansion: none

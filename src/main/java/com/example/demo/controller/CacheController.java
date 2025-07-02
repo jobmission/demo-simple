@@ -29,9 +29,6 @@ public class CacheController implements InitializingBean {
                       @RequestParam(value = "value", required = false, defaultValue = "abcValue") String value) {
 
         cacheManager.getCache(cacheName).put(key, value);
-        for (int i = 0; i < 100; i++) {
-            cacheManager.getCache(cacheName).put(key + i, value);
-        }
         return "ok";
     }
 
@@ -44,7 +41,7 @@ public class CacheController implements InitializingBean {
 
     @GetMapping("/list")
     public Object list(@RequestParam(value = "cacheName", required = false, defaultValue = "testCache") String cacheName) {
-        return ((FileBackedCache) (cacheManager.getCache(cacheName))).asMap();
+        return ((FileBackedCache) (cacheManager.getCache(cacheName))).effectiveMap();
     }
 
 
