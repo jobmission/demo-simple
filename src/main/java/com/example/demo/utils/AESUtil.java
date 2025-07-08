@@ -124,6 +124,9 @@ public class AESUtil {
      * @throws Exception 如果密钥长度不正确或加密失败
      */
     public static String encrypt(byte[] keyBytes, String plaintext) throws Exception {
+        if (keyBytes.length != 32) {
+            throw new IllegalArgumentException("Key must be 256 bits (32 bytes) long.");
+        }
         // 创建密钥对象
         SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "AES");
 
@@ -157,6 +160,9 @@ public class AESUtil {
      * @throws Exception 如果密钥长度不正确或解密失败
      */
     public static String decrypt(byte[] keyBytes, String ciphertext) throws Exception {
+        if (keyBytes.length != 32) {
+            throw new IllegalArgumentException("Key must be 256 bits (32 bytes) long.");
+        }
         // 解码Base64字符串
         byte[] combined = Base64.getDecoder().decode(ciphertext);
 
@@ -175,7 +181,6 @@ public class AESUtil {
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
-
 
     /**
      * 生成随机IV
