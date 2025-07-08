@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HexFormat;
 
@@ -52,7 +53,7 @@ public class AESUtil {
     }
 
     /**
-     * 加密（返回16进制或者Base64字符串，格式为IV+密文）
+     * 加密（返回16进制或者Base64字符串，格式为IV:密文）
      *
      * @param keyBytes        32字节的密钥
      * @param plainText       明文字符串
@@ -60,15 +61,15 @@ public class AESUtil {
      * @return 加密后的字符串
      * @throws Exception 如果密钥长度不正确或加密失败
      */
-    public static String encrypt(byte[] keyBytes, String plainText, int bytesEncodeType) throws Exception {
+    public static String encryptAndEncode(byte[] keyBytes, String plainText, int bytesEncodeType) throws Exception {
         if (keyBytes.length != 32) {
             throw new IllegalArgumentException("Key must be 256 bits (32 bytes) long.");
         }
         byte[] ivBytes = generateIV();
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE,
-                new SecretKeySpec(keyBytes, "AES"),
-                new IvParameterSpec(ivBytes));
+            new SecretKeySpec(keyBytes, "AES"),
+            new IvParameterSpec(ivBytes));
 
         byte[] ciphertext = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
         if (bytesEncodeType == 0) {
@@ -79,7 +80,7 @@ public class AESUtil {
     }
 
     /**
-     * 解密（输入16进制或者Base64字符串）
+     * 解密（输入16进制或者Base64字符串，格式为IV:密文）
      *
      * @param keyBytes        32字节的密钥
      * @param encryptedText   加密后的字符串
@@ -87,7 +88,7 @@ public class AESUtil {
      * @return 解密后的明文字符串
      * @throws Exception 如果密钥长度不正确或解密失败
      */
-    public static String decrypt(byte[] keyBytes, String encryptedText, int bytesEncodeType) throws Exception {
+    public static String decryptAndDecode(byte[] keyBytes, String encryptedText, int bytesEncodeType) throws Exception {
         if (keyBytes.length != 32) {
             throw new IllegalArgumentException("Key must be 256 bits (32 bytes) long.");
         }
@@ -107,13 +108,80 @@ public class AESUtil {
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE,
-                    new SecretKeySpec(keyBytes, "AES"),
-                    new IvParameterSpec(ivBytes));
+                new SecretKeySpec(keyBytes, "AES"),
+                new IvParameterSpec(ivBytes));
 
             return new String(cipher.doFinal(ciphertext), StandardCharsets.UTF_8);
         }
     }
 
+    /**
+     * 加密方法
+     *
+     * @param keyBytes  32字节的密钥
+     * @param plaintext 明文字符串
+     * @return 加密后的Base64字符串，包含IV和密文
+     * @throws Exception 如果密钥长度不正确或加密失败
+     */
+    public static String encrypt(byte[] keyBytes, String plaintext) throws Exception {
+        // 创建密钥对象
+        SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "AES");
+
+        // 生成随机IV（16字节）
+        byte[] iv = new byte[IV_LENGTH];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(iv);
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+        // 初始化加密器
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
+
+        // 执行加密
+        byte[] encryptedBytes = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
+
+        // 合并IV和密文
+        byte[] combined = new byte[iv.length + encryptedBytes.length];
+        System.arraycopy(iv, 0, combined, 0, iv.length);
+        System.arraycopy(encryptedBytes, 0, combined, iv.length, encryptedBytes.length);
+
+        return Base64.getEncoder().encodeToString(combined);
+    }
+
+    /**
+     * 解密方法
+     *
+     * @param keyBytes   32字节的密钥
+     * @param ciphertext 加密后的Base64字符串，包含IV和密文
+     * @return 解密后的明文字符串
+     * @throws Exception 如果密钥长度不正确或解密失败
+     */
+    public static String decrypt(byte[] keyBytes, String ciphertext) throws Exception {
+        // 解码Base64字符串
+        byte[] combined = Base64.getDecoder().decode(ciphertext);
+
+        // 提取IV和密文
+        byte[] iv = Arrays.copyOfRange(combined, 0, IV_LENGTH);
+        byte[] encryptedBytes = Arrays.copyOfRange(combined, IV_LENGTH, combined.length);
+
+        // 创建密钥对象
+        SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "AES");
+
+        // 初始化解密器
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+
+        // 执行解密
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+        return new String(decryptedBytes, StandardCharsets.UTF_8);
+    }
+
+
+    /**
+     * 生成随机IV
+     *
+     * @return 生成的IV字节数组
+     */
     private static byte[] generateIV() {
         byte[] iv = new byte[IV_LENGTH];
         secureRandom.nextBytes(iv);

@@ -28,7 +28,7 @@ public class CustomTokenUtil {
         } else {
             expireMillis = currentTimeMillis + 1000L * tokenExpireSeconds; // 设置为指定的过期时间
         }
-        String encodedInput = AESUtil.encrypt(secretKey, input + "@" + expireMillis + ":" + currentTimeMillis, bytesEncodeType);
+        String encodedInput = AESUtil.encryptAndEncode(secretKey, input + "@" + expireMillis + ":" + currentTimeMillis, bytesEncodeType);
         return bytesEncodeType + "." + encodedInput;
     }
 
@@ -56,7 +56,7 @@ public class CustomTokenUtil {
         if (count != 1) {
             throw new IllegalArgumentException("Invalid token format 3");
         }
-        String decrypted = AESUtil.decrypt(secretKey, encryptedToken.replace(bytesEncodeType + ".", ""), bytesEncodeType);
+        String decrypted = AESUtil.decryptAndDecode(secretKey, encryptedToken.replace(bytesEncodeType + ".", ""), bytesEncodeType);
         int lastIndexOf = decrypted.lastIndexOf('@');
         if (lastIndexOf == -1) {
             throw new IllegalArgumentException("Invalid token format 4");

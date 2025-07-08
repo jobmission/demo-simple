@@ -22,15 +22,15 @@ public class AESTest {
         System.out.println("加密前的明文: " + plainText);
 
         // 加密
-        String encrypted = AESUtil.encrypt(key, plainText, 0);
-        String encrypted16 = AESUtil.encrypt(key, plainText, 1);
+        String encrypted = AESUtil.encryptAndEncode(key, plainText, 0);
+        String encrypted16 = AESUtil.encryptAndEncode(key, plainText, 1);
         System.out.println("加密后的数据64: " + encrypted);
         System.out.println("加密后的数据16: " + encrypted16);
 
         // 解密
-        String decrypted = AESUtil.decrypt(key, encrypted, 0);
+        String decrypted = AESUtil.decryptAndDecode(key, encrypted, 0);
         System.out.println("解密后的数据64: " + decrypted);
-        System.out.println("解密后的数据16: " + AESUtil.decrypt(key, encrypted16, 1));
+        System.out.println("解密后的数据16: " + AESUtil.decryptAndDecode(key, encrypted16, 1));
     }
 
     @Disabled

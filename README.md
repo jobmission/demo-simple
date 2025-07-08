@@ -1,4 +1,11 @@
 
+### Postgres
+````
+CREATE DATABASE demo_01;
+CREATE USER user_dev WITH PASSWORD 'pass_dev';
+GRANT ALL PRIVILEGES ON DATABASE demo_01 TO user_dev;
+````
+
 ### mysql
 ````
 CREATE DATABASE IF NOT EXISTS demo_01 DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
