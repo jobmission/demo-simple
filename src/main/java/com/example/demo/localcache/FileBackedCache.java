@@ -24,18 +24,21 @@ public class FileBackedCache implements Cache, Serializable {
     private final int maxSize;
     private final long expireMinutes;
     boolean forceClearWhenFull = true;
+    boolean enableNullValueKey = true;
 
     public FileBackedCache(String name,
                            String cacheDir,
                            int maxSize,
                            long expireMinutes,
-                           boolean forceClearWhenFull) {
+                           boolean forceClearWhenFull,
+                           boolean enableNullValueKey) {
         this.name = name;
         this.cache = new ConcurrentHashMap<>();
         this.cacheDir = cacheDir;
         this.maxSize = maxSize;
         this.expireMinutes = expireMinutes;
         this.forceClearWhenFull = forceClearWhenFull;
+        this.enableNullValueKey = enableNullValueKey;
     }
 
     public FileBackedCache(String name,
@@ -54,12 +57,14 @@ public class FileBackedCache implements Cache, Serializable {
     }
 
     public FileBackedCache(String name,
-                           String cacheDir) {
+                           String cacheDir,
+                           boolean enableNullValueKey) {
         this.name = name;
         this.cache = new ConcurrentHashMap<>();
         this.cacheDir = cacheDir;
         this.maxSize = 4096;
         this.expireMinutes = 15;
+        this.enableNullValueKey = enableNullValueKey;
     }
 
     @NotNull
@@ -117,6 +122,9 @@ public class FileBackedCache implements Cache, Serializable {
 
     @Override
     public void put(@NotNull Object key, Object value) {
+        if (!enableNullValueKey && value == null) {
+            return;
+        }
         if (cache.containsKey(key.toString())) {
             cache.put(key.toString(), new CacheValueWrapper(value, expireMinutes * 60));
         } else {
