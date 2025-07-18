@@ -32,12 +32,12 @@ jobs:
           docker run --network=host -d --restart always --name timescaledb -p 5432:5432 \
           -v /data/v_pgsql:/home/postgres/pgdata/data \
           -e POSTGRES_PASSWORD=P@ssw0rd \
-          -e POSTGRES_DB=demo_01 \
           timescale/timescaledb-ha:pg17
           sleep 20
           docker ps -a
           netstat -nptl
           docker logs -n 100 timescaledb
-          # docker exec timescaledb psql -c "CREATE DATABASE demo_01;"
+          docker exec timescaledb psql -c "CREATE DATABASE demo_01;"
+          docker exec timescaledb psql -c "CREATE DATABASE iot_db;"
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests=true
